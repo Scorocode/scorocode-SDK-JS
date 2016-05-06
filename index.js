@@ -1,1 +1,1 @@
-module.exports = require('dist/scorocode.js');
+module.exports = require('./dist/scorocode.js');
