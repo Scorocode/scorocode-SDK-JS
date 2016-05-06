@@ -1,9 +1,16 @@
 var browserify = require('browserify');
 var gulp = require('gulp');
 var babelify = require("babelify");
+var babel = require('gulp-babel');
 var source = require('vinyl-source-stream');
 var uglify     = require('gulp-uglify');
 var rename     = require('gulp-rename');
+
+gulp.task('compile', function () {
+    return gulp.src('src/**/*.js')
+        .pipe(babel())
+        .pipe(gulp.dest('dist/'))
+});
 
 gulp.task('browserify', function () {
     return browserify({
