@@ -1,6 +1,6 @@
 {
   "name": "scorocode",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Scorocode Javascript SDK",
   "dependencies": {},
   "devDependencies": {
