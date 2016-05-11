@@ -89,7 +89,7 @@ var SCObject = exports.SCObject = function () {
                 throw new Error('You must first create a document');
             }
 
-            var QueryJSON = this.toJSON();
+            var QueryJSON = this.toJson();
 
             var params = {
                 coll: QueryJSON.coll,
@@ -107,8 +107,8 @@ var SCObject = exports.SCObject = function () {
             });
         }
     }, {
-        key: "toJSON",
-        value: function toJSON() {
+        key: "toJson",
+        value: function toJson() {
             var json = {
                 coll: this.collection,
                 query: this.attrs['_id'] ? { _id: this.attrs['_id'] } : {},
@@ -124,7 +124,7 @@ var SCObject = exports.SCObject = function () {
             var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
             if (this.attrs['_id']) {
-                return _data.DataStore.getInstance().updateById(this.toJSON(), options).then(function (data) {
+                return _data.DataStore.getInstance().updateById(this.toJson(), options).then(function (data) {
                     if (!data.error) {
                         _this3.attrs = data.result;
                     }
@@ -133,7 +133,7 @@ var SCObject = exports.SCObject = function () {
                 });
             }
 
-            return _data.DataStore.getInstance().insert(this.toJSON(), options).then(function (data) {
+            return _data.DataStore.getInstance().insert(this.toJson(), options).then(function (data) {
                 if (!data.error) {
                     _this3.attrs = data.result;
                 }

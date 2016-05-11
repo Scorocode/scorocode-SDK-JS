@@ -15,12 +15,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var operators = {
     set: function set(key, value) {
-        if (this instanceof _object.SCObject) {
-            if (this.attrs['_id'] && !this.attrs[key]) {
-                throw new Error('Unknown field');
-            }
-        }
-
         if (!(this instanceof _object.SCObject) || this.attrs['_id']) {
             if (!this.update['$set']) {
                 this.update['$set'] = {};
@@ -34,10 +28,6 @@ var operators = {
     },
     push: function push(key, value) {
         if (this instanceof _object.SCObject) {
-            if (this.attrs['_id'] && !this.attrs[key]) {
-                throw new Error('Unknown field');
-            }
-
             if (!this.attrs['_id']) {
                 throw new Error('For a new document use the method Set');
             }
@@ -60,10 +50,6 @@ var operators = {
                 throw new Error('For a new document use the method Set');
             }
 
-            if (this.attrs['_id'] && !this.attrs[key]) {
-                throw new Error('Unknown field');
-            }
-
             if (!_utils.Utils.isArray(this.attrs[key])) {
                 throw new Error('Field must by a type of array');
             }
@@ -80,10 +66,6 @@ var operators = {
         if (this instanceof _object.SCObject) {
             if (!this.attrs['_id']) {
                 throw new Error('For a new document use the method Set');
-            }
-
-            if (this.attrs['_id'] && !this.attrs[key]) {
-                throw new Error('Unknown field');
             }
 
             if (!_utils.Utils.isArray(this.attrs[key])) {
@@ -108,10 +90,6 @@ var operators = {
                 throw new Error('For a new document use the method Set');
             }
 
-            if (this.attrs['_id'] && !this.attrs[key]) {
-                throw new Error('Unknown field');
-            }
-
             if (!_utils.Utils.isArray(this.attrs[key])) {
                 throw new Error('Field must by a type of array');
             }
@@ -134,10 +112,6 @@ var operators = {
                 throw new Error('Position must be 1 or -1');
             }
 
-            if (this.attrs['_id'] && !this.attrs[key]) {
-                throw new Error('Unknown field');
-            }
-
             if (!_utils.Utils.isArray(this.attrs[key])) {
                 throw new Error('Field must by a type of array');
             }
@@ -154,10 +128,6 @@ var operators = {
         if (this instanceof _object.SCObject) {
             if (!this.attrs['_id']) {
                 throw new Error('For a new document use the method Set');
-            }
-
-            if (this.attrs['_id'] && !this.attrs[key]) {
-                throw new Error('Unknown field');
             }
 
             if (!_utils.Utils.isNumber(this.attrs[key])) {
@@ -178,10 +148,6 @@ var operators = {
                 throw new Error('For a new document use the method Set');
             }
 
-            if (this.attrs['_id'] && !this.attrs[key]) {
-                throw new Error('Unknown field');
-            }
-
             if (type !== true && type !== 'timestamp' && type !== 'date') {
                 throw new Error('Invalid type');
             }
@@ -199,10 +165,6 @@ var operators = {
         if (this instanceof _object.SCObject) {
             if (!this.attrs['_id']) {
                 throw new Error('For a new document use the method Set');
-            }
-
-            if (this.attrs['_id'] && !this.attrs[key]) {
-                throw new Error('Unknown field');
             }
 
             if (!_utils.Utils.isNumber(this.attrs[key])) {
@@ -228,10 +190,6 @@ var operators = {
                 throw new Error('For a new document use the method Set');
             }
 
-            if (this.attrs['_id'] && !this.attrs[key]) {
-                throw new Error('Unknown field');
-            }
-
             if (!_utils.Utils.isNumber(this.attrs[key])) {
                 throw new Error('Field must by a type of number');
             }
@@ -253,10 +211,6 @@ var operators = {
         if (this instanceof _object.SCObject) {
             if (!this.attrs['_id']) {
                 throw new Error('For a new document use the method Set');
-            }
-
-            if (this.attrs['_id'] && !this.attrs[key]) {
-                throw new Error('Unknown field');
             }
 
             if (!_utils.Utils.isNumber(this.attrs[key])) {
