@@ -60,7 +60,7 @@ export class SCObject {
             throw new Error('You must first create a document');
         }
 
-        let QueryJSON = this.toJSON();
+        let QueryJSON = this.toJson();
 
         let params = {
             coll: QueryJSON.coll,
@@ -78,7 +78,7 @@ export class SCObject {
         });
     }
 
-    toJSON() {
+    toJson() {
         const json = {
             coll: this.collection,
             query: this.attrs['_id'] ? { _id: this.attrs['_id']} : {},
@@ -88,7 +88,7 @@ export class SCObject {
     }
     save(options = {}) {
         if (this.attrs['_id']) {
-            return DataStore.getInstance().updateById(this.toJSON(), options).then(data => {
+            return DataStore.getInstance().updateById(this.toJson(), options).then(data => {
                 if (!data.error) {
                     this.attrs = data.result;
                 }
@@ -97,7 +97,7 @@ export class SCObject {
             });
         }
 
-        return DataStore.getInstance().insert(this.toJSON(), options).then(data => {
+        return DataStore.getInstance().insert(this.toJson(), options).then(data => {
             if (!data.error) {
                 this.attrs = data.result;
             }
