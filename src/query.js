@@ -154,7 +154,7 @@ export class SCQuery {
             throw new Error("Page must be a positive number");
         }
 
-        this._skip = page * this._limit;
+        this._skip = (page - 1) * this._limit;
 
         return this;
     }
