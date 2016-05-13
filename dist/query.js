@@ -214,7 +214,7 @@ var SCQuery = function () {
                 throw new Error("Page must be a positive number");
             }
 
-            this._skip = _page * this._limit;
+            this._skip = (_page - 1) * this._limit;
 
             return this;
         }

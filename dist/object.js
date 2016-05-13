@@ -48,7 +48,7 @@ var SCObject = exports.SCObject = function () {
                     throw new Error('Document not found');
                 }
 
-                _utils.Utils.extend(_this, data.result[0]);
+                _utils.Utils.extend(_this.attrs, data.result[0]);
 
                 return data.result[0];
             });
