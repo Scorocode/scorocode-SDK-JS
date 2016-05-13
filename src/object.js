@@ -27,7 +27,7 @@ export class SCObject {
                 throw new Error('Document not found');
             }
 
-            Utils.extend(this, data.result[0]);
+            Utils.extend(this.attrs, data.result[0]);
             
             return data.result[0];
         });
