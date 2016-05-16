@@ -74,31 +74,15 @@ export class SCQuery {
     }
 
     greaterThan(field, value) {
-        if (!Utils.isNumber(value)) {
-            throw new Error("Value must be a number");
-        }
-
         return this._addFilter(field, '$gt', value);
     }
     greaterThanOrEqualTo(field, value) {
-        if (!Utils.isNumber(value)) {
-            throw new Error("Value must be a number");
-        }
-
         return this._addFilter(field, '$gte', value);
     }
     lessThan(field, value) {
-        if (!Utils.isNumber(value)) {
-            throw new Error("Value must be a number");
-        }
-
         return this._addFilter(field, '$lt', value);
     }
     lessThanOrEqualTo(field, value) {
-        if (!Utils.isNumber(value)) {
-            throw new Error("Value must be a number");
-        }
-
         return this._addFilter(field, '$lte', value);
     }
 
