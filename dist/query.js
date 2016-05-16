@@ -115,37 +115,21 @@ var SCQuery = function () {
     }, {
         key: "greaterThan",
         value: function greaterThan(field, value) {
-            if (!_utils.Utils.isNumber(value)) {
-                throw new Error("Value must be a number");
-            }
-
             return this._addFilter(field, '$gt', value);
         }
     }, {
         key: "greaterThanOrEqualTo",
         value: function greaterThanOrEqualTo(field, value) {
-            if (!_utils.Utils.isNumber(value)) {
-                throw new Error("Value must be a number");
-            }
-
             return this._addFilter(field, '$gte', value);
         }
     }, {
         key: "lessThan",
         value: function lessThan(field, value) {
-            if (!_utils.Utils.isNumber(value)) {
-                throw new Error("Value must be a number");
-            }
-
             return this._addFilter(field, '$lt', value);
         }
     }, {
         key: "lessThanOrEqualTo",
         value: function lessThanOrEqualTo(field, value) {
-            if (!_utils.Utils.isNumber(value)) {
-                throw new Error("Value must be a number");
-            }
-
             return this._addFilter(field, '$lte', value);
         }
     }, {

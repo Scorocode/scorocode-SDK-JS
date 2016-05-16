@@ -7,15 +7,13 @@ exports.SCUpdateOps = exports.operators = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _object = require('./object');
-
 var _utils = require('./utils');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var operators = {
     set: function set(key, value) {
-        if (!(this instanceof _object.SCObject) || this.attrs['_id']) {
+        if (this instanceof SCUpdateOps || this.attrs['_id']) {
             if (!this.update['$set']) {
                 this.update['$set'] = {};
             }
@@ -27,7 +25,7 @@ var operators = {
         return this;
     },
     push: function push(key, value) {
-        if (this instanceof _object.SCObject) {
+        if (!(this instanceof SCUpdateOps)) {
             if (!this.attrs['_id']) {
                 throw new Error('For a new document use the method Set');
             }
@@ -45,7 +43,7 @@ var operators = {
         return this;
     },
     pull: function pull(key, value) {
-        if (this instanceof _object.SCObject) {
+        if (!(this instanceof SCUpdateOps)) {
             if (!this.attrs['_id']) {
                 throw new Error('For a new document use the method Set');
             }
@@ -63,7 +61,7 @@ var operators = {
         return this;
     },
     pullAll: function pullAll(key, value) {
-        if (this instanceof _object.SCObject) {
+        if (!(this instanceof SCUpdateOps)) {
             if (!this.attrs['_id']) {
                 throw new Error('For a new document use the method Set');
             }
@@ -71,10 +69,10 @@ var operators = {
             if (!_utils.Utils.isArray(this.attrs[key])) {
                 throw new Error('Field must by a type of array');
             }
+        }
 
-            if (!_utils.Utils.isArray(value)) {
-                throw new Error('Value must by a type of array');
-            }
+        if (!_utils.Utils.isArray(value)) {
+            throw new Error('Value must by a type of array');
         }
 
         if (!this.update['$pullAll']) {
@@ -85,7 +83,7 @@ var operators = {
         return this;
     },
     addToSet: function addToSet(key, value) {
-        if (this instanceof _object.SCObject) {
+        if (!(this instanceof SCUpdateOps)) {
             if (!this.attrs['_id']) {
                 throw new Error('For a new document use the method Set');
             }
@@ -103,18 +101,18 @@ var operators = {
         return this;
     },
     pop: function pop(key, pos) {
-        if (this instanceof _object.SCObject) {
+        if (!(this instanceof SCUpdateOps)) {
             if (!this.attrs['_id']) {
                 throw new Error('For a new document use the method Set');
-            }
-
-            if (pos !== 1 && pos !== -1) {
-                throw new Error('Position must be 1 or -1');
             }
 
             if (!_utils.Utils.isArray(this.attrs[key])) {
                 throw new Error('Field must by a type of array');
             }
+        }
+
+        if (pos !== 1 && pos !== -1) {
+            throw new Error('Position must be 1 or -1');
         }
 
         if (!this.update['$pop']) {
@@ -125,7 +123,7 @@ var operators = {
         return this;
     },
     inc: function inc(key, value) {
-        if (this instanceof _object.SCObject) {
+        if (!(this instanceof SCUpdateOps)) {
             if (!this.attrs['_id']) {
                 throw new Error('For a new document use the method Set');
             }
@@ -143,7 +141,7 @@ var operators = {
         return this;
     },
     currentDate: function currentDate(key, type) {
-        if (this instanceof _object.SCObject) {
+        if (!(this instanceof SCUpdateOps)) {
             if (!this.attrs['_id']) {
                 throw new Error('For a new document use the method Set');
             }
@@ -162,7 +160,7 @@ var operators = {
         return this;
     },
     mul: function mul(key, value) {
-        if (this instanceof _object.SCObject) {
+        if (!(this instanceof SCUpdateOps)) {
             if (!this.attrs['_id']) {
                 throw new Error('For a new document use the method Set');
             }
@@ -170,10 +168,10 @@ var operators = {
             if (!_utils.Utils.isNumber(this.attrs[key])) {
                 throw new Error('Field must by a type of number');
             }
+        }
 
-            if (!_utils.Utils.isNumber(value)) {
-                throw new Error('Value must by a type of number');
-            }
+        if (!_utils.Utils.isNumber(value)) {
+            throw new Error('Value must by a type of number');
         }
 
         if (!this.update['$mul']) {
@@ -185,7 +183,7 @@ var operators = {
         return this;
     },
     min: function min(key, value) {
-        if (this instanceof _object.SCObject) {
+        if (!(this instanceof SCUpdateOps)) {
             if (!this.attrs['_id']) {
                 throw new Error('For a new document use the method Set');
             }
@@ -193,10 +191,10 @@ var operators = {
             if (!_utils.Utils.isNumber(this.attrs[key])) {
                 throw new Error('Field must by a type of number');
             }
+        }
 
-            if (!_utils.Utils.isNumber(value)) {
-                throw new Error('Value must by a type of number');
-            }
+        if (!_utils.Utils.isNumber(value)) {
+            throw new Error('Value must by a type of number');
         }
 
         if (!this.update['$min']) {
@@ -208,7 +206,7 @@ var operators = {
         return this;
     },
     max: function max(key, value) {
-        if (this instanceof _object.SCObject) {
+        if (!(this instanceof SCUpdateOps)) {
             if (!this.attrs['_id']) {
                 throw new Error('For a new document use the method Set');
             }
@@ -216,10 +214,10 @@ var operators = {
             if (!_utils.Utils.isNumber(this.attrs[key])) {
                 throw new Error('Field must by a type of number');
             }
+        }
 
-            if (!_utils.Utils.isNumber(value)) {
-                throw new Error('Value must by a type of number');
-            }
+        if (!_utils.Utils.isNumber(value)) {
+            throw new Error('Value must by a type of number');
         }
 
         if (!this.update['$max']) {

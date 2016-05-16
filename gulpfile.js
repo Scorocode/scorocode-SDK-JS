@@ -28,3 +28,5 @@ gulp.task('minify', function() {
         .pipe(rename({ extname: '.min.js' }))
         .pipe(gulp.dest('lib/browser/'))
 });
+
+gulp.task('default', ['compile', 'browserify', 'minify']);
