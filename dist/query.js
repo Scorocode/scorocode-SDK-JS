@@ -145,8 +145,8 @@ var SCQuery = function () {
     }, {
         key: "contains",
         value: function contains(field, value) {
-            if (!_utils.Utils.isArray(value)) {
-                throw new Error('Value must be of type: Array');
+            if (typeof value !== 'string') {
+                throw new Error("Value must be a string");
             }
 
             return this._addFilter(field, '$reqex', value);

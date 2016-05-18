@@ -89,6 +89,15 @@ var SCObject = exports.SCObject = function () {
                 throw new Error('You must first create a document');
             }
 
+            var base64 = file.split(',');
+            var base64result = "";
+
+            if (base64.length == 2) {
+                base64result = base64[1];
+            } else {
+                base64result = base64[0];
+            }
+
             var QueryJSON = this.toJson();
 
             var params = {
@@ -96,7 +105,7 @@ var SCObject = exports.SCObject = function () {
                 docId: this.attrs['_id'],
                 field: field,
                 file: filename,
-                content: file
+                content: base64result
             };
             return _data.DataStore.getInstance().uploadFile(params, options).then(function (data) {
 
