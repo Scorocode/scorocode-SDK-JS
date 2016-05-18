@@ -94,8 +94,8 @@ export class SCQuery {
     }
 
     contains(field,value) {
-        if (!Utils.isArray(value)) {
-            throw new Error('Value must be of type: Array');
+        if (typeof value !== 'string') {
+            throw new Error("Value must be a string");
         }
 
         return this._addFilter(field, '$reqex', value);
