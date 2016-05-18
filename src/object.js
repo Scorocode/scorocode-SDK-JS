@@ -60,6 +60,15 @@ export class SCObject {
             throw new Error('You must first create a document');
         }
 
+        var base64 = file.split(',');
+        var base64result = "";
+
+        if (base64.length == 2) {
+            base64result = base64[1];
+        } else {
+            base64result = base64[0];
+        }
+
         let QueryJSON = this.toJson();
 
         let params = {
@@ -67,7 +76,7 @@ export class SCObject {
             docId: this.attrs['_id'],
             field: field,
             file: filename,
-            content: file
+            content: base64result
         };
         return DataStore.getInstance().uploadFile(params, options).then(data => {
 
