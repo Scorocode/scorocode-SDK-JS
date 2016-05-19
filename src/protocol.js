@@ -1,8 +1,8 @@
 import {Client} from './client'
 import {Utils} from "./utils"
 
-class Protocol {
-    constructor(client, opts) {
+export class Protocol {
+    constructor(client, opts = {}) {
         this.method = 'POST';
         this.host = client.get('HOST');
         this.port = client.get('PORT');
