@@ -5,14 +5,12 @@ import {SDKOptions} from './client'
 
 export class SCSystem {
     constructor() {}
-    getDataStats() {
+    getDataStats(callbacks = {}) {
         let protocolOpts = {
-            url: SDKOptions.CLOUD_CODE_URL
+            url: SDKOptions.DATA_STATS
         };
 
-        const client = Client.getInstance();
-        const protocol = Protocol.init(client, protocolOpts);
-
+        const protocol = Protocol.init(protocolOpts);
         const request = new HttpRequest(protocol);
         const promise = request.execute()
             .then(data => {
@@ -23,7 +21,7 @@ export class SCSystem {
                     return Promise.reject(response);
                 }
 
-                return response;
+                return response.result;
             });
 
         return Utils.wrapCallbacks(promise, callbacks);

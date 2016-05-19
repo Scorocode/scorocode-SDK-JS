@@ -33,6 +33,8 @@ var SDKOptions = exports.SDKOptions = {
     LOGOUT_URL: "/api/v1/logout",
     LOGIN_URL: "/api/v1/login",
 
+    DATA_STATS: '/api/v1/stat',
+
     TIMEOUT: 5000
 
 };

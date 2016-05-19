@@ -2,7 +2,7 @@ import {Client} from './client'
 import {Utils} from "./utils"
 
 export class Protocol {
-    constructor(client, opts = {}) {
+    constructor(client, opts) {
         this.method = 'POST';
         this.host = client.get('HOST');
         this.port = client.get('PORT');
@@ -19,6 +19,12 @@ export class Protocol {
         this.timeout = opts.timeout || client.get('TIMEOUT');
     }
 
+    static init(opts) {
+        const client = Client.getInstance();
+        const protocol = new Protocol(client, opts);
+
+        return protocol;
+    }
     setAccessKey(key, value) {
         this.data[key] = value;
         return this;
