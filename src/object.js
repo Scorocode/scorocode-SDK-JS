@@ -120,8 +120,13 @@ export class SCObject {
         });
     }
     
-    static extend(params) {
-        throw new Error('Not implemented yet');
+    static extend(collName, childObject) {
+        const obj = new SCObject(collName);
+        for (let prop in childObject) {
+            obj.attrs[prop] = childObject[prop];
+        }
+
+        return obj;
     }
     
 
