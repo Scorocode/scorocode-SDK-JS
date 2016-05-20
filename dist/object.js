@@ -161,8 +161,13 @@ var SCObject = exports.SCObject = function () {
         }
     }], [{
         key: "extend",
-        value: function extend(params) {
-            throw new Error('Not implemented yet');
+        value: function extend(collName, childObject) {
+            var obj = new SCObject(collName);
+            for (var prop in childObject) {
+                obj.attrs[prop] = childObject[prop];
+            }
+
+            return obj;
         }
     }]);
 
