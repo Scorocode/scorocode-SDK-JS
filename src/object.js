@@ -83,7 +83,7 @@ export class SCObject {
             if (!data.error) {
                 this.attrs[field] = data.result;
             }
-            return data.result;
+            return data;
         });
     }
 
