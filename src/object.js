@@ -52,7 +52,7 @@ export class SCObject {
         }
 
         const client = Client.getInstance();
-        return 'https://api.scorocode.ru/api/v1/getfile/' + client.applicationID + '/' + this.collection + '/' + field + '/' + this.attrs[field];
+        return 'https://api.scorocode.ru/api/v1/getfile/' + client.applicationID + '/' + this.collection + '/' + field + '/' + this.attrs._id + '/' + this.attrs[field];
     }
 
     uploadFile(field, filename, file, options = {}) {
