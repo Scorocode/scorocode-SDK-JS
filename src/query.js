@@ -24,6 +24,7 @@ export class SCQuery {
     }
 
     find(options = {}) {
+        //TODO: Следует возвращать массив SC.Object вместо сырых данных
         return DataStore.getInstance().find(this.toJson(), options);
     }
     count(options = {}) {

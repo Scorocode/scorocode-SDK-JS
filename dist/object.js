@@ -112,7 +112,7 @@ var SCObject = exports.SCObject = function () {
                 if (!data.error) {
                     _this2.attrs[field] = data.result;
                 }
-                return data.result;
+                return data;
             });
         }
     }, {
