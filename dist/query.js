@@ -43,6 +43,7 @@ var SCQuery = function () {
         value: function find() {
             var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
+            //TODO: Следует возвращать массив SC.Object вместо сырых данных
             return _data.DataStore.getInstance().find(this.toJson(), options);
         }
     }, {
