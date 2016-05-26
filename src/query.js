@@ -99,7 +99,7 @@ export class SCQuery {
             throw new Error("Value must be a string");
         }
 
-        return this._addFilter(field, '$reqex', value);
+        return this._addFilter(field, '$regex', value);
     }
     startsWith(field, value) {
         if (typeof value !== 'string') {
