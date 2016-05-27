@@ -155,7 +155,11 @@ var operators = {
             this.update['$currentDate'] = {};
         }
 
-        this.update['$currentDate'][key] = type;
+        if (type === 'timestamp' || type === 'date') {
+            this.update['$currentDate'][key] = { $type: type };
+        } else {
+            this.update['$currentDate'][key] = type;
+        }
 
         return this;
     },
