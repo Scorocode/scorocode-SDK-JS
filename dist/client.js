@@ -63,7 +63,7 @@ var Client = exports.Client = function () {
         this.fileKey = options.FileKey || "";
         this.sessionId = "";
 
-        this.host = "http://94.126.157.203";
+        this.host = "https://scorocode.ru";
         this.port = "443";
 
         /* Not implemented yet */
@@ -77,6 +77,11 @@ var Client = exports.Client = function () {
         key: "get",
         value: function get(key) {
             return SDKOptions[key];
+        }
+    }, {
+        key: "set",
+        value: function set(key, value) {
+            SDKOptions[key] = value;
         }
     }], [{
         key: "init",
