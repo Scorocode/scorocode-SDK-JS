@@ -50,7 +50,7 @@ export class Client {
         this.fileKey = options.FileKey || "";
         this.sessionId = "";
 
-        this.host = "http://94.126.157.203";
+        this.host = "https://scorocode.ru";
         this.port = "443";
 
         /* Not implemented yet */
@@ -62,6 +62,10 @@ export class Client {
 
     get(key) {
         return SDKOptions[key];
+    }
+
+    set(key, value) {
+        SDKOptions[key] = value;
     }
 
     static init(options) {
