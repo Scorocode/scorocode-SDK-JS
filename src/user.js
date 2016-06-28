@@ -13,7 +13,12 @@ export class SCUser extends SCObject{
             url: SDKOptions.SIGN_UP_URL
         };
 
-        const protocol = UserProtocol.init(this.attrs, protocolOpts);
+        let data = {
+            username: this.attrs.username,
+            email: this.attrs.email,
+            password: this.attrs.password
+        };
+        const protocol = UserProtocol.init(data, this.attrs, protocolOpts);
         const request = new HttpRequest(protocol);
         const promise = request.execute()
             .then(response => {
@@ -35,7 +40,7 @@ export class SCUser extends SCObject{
             url: SDKOptions.LOGOUT_URL
         };
 
-        const protocol = UserProtocol.init(null, protocolOpts);
+        const protocol = UserProtocol.init(null, null, protocolOpts);
         const request = new HttpRequest(protocol);
         const promise = request.execute()
             .then(response => {
@@ -56,7 +61,7 @@ export class SCUser extends SCObject{
             url: SDKOptions.LOGIN_URL
         };
 
-        const protocol = UserProtocol.init({email:email, password: password}, protocolOpts);
+        const protocol = UserProtocol.init({email:email, password: password}, null, protocolOpts);
         const request = new HttpRequest(protocol);
         const promise = request.execute()
             .then(data => {

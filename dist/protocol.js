@@ -140,10 +140,11 @@ var UserProtocol = exports.UserProtocol = function (_Protocol2) {
 
     _createClass(UserProtocol, null, [{
         key: 'init',
-        value: function init(user, opts) {
+        value: function init(data, doc, opts) {
             var client = _client.Client.getInstance();
             var protocol = new UserProtocol(client, opts);
-            protocol.setData(user);
+            protocol.setData(data);
+            protocol.setDoc(doc);
 
             return protocol;
         }

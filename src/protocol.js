@@ -92,10 +92,11 @@ export class UserProtocol extends Protocol {
         super(client, opts);
     }
 
-    static init(user, opts) {
+    static init(data, doc, opts) {
         const client = Client.getInstance();
         const protocol = new UserProtocol(client, opts);
-        protocol.setData(user);
+        protocol.setData(data);
+        protocol.setDoc(doc);
 
         return protocol;
     }

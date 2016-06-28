@@ -43,7 +43,12 @@ var SCUser = exports.SCUser = function (_SCObject) {
                 url: _client.SDKOptions.SIGN_UP_URL
             };
 
-            var protocol = _protocol.UserProtocol.init(this.attrs, protocolOpts);
+            var data = {
+                username: this.attrs.username,
+                email: this.attrs.email,
+                password: this.attrs.password
+            };
+            var protocol = _protocol.UserProtocol.init(data, this.attrs, protocolOpts);
             var request = new _httpRequest.HttpRequest(protocol);
             var promise = request.execute().then(function (response) {
                 return JSON.parse(response);
@@ -67,7 +72,7 @@ var SCUser = exports.SCUser = function (_SCObject) {
                 url: _client.SDKOptions.LOGOUT_URL
             };
 
-            var protocol = _protocol.UserProtocol.init(null, protocolOpts);
+            var protocol = _protocol.UserProtocol.init(null, null, protocolOpts);
             var request = new _httpRequest.HttpRequest(protocol);
             var promise = request.execute().then(function (response) {
                 return JSON.parse(response);
@@ -92,7 +97,7 @@ var SCUser = exports.SCUser = function (_SCObject) {
                 url: _client.SDKOptions.LOGIN_URL
             };
 
-            var protocol = _protocol.UserProtocol.init({ email: email, password: password }, protocolOpts);
+            var protocol = _protocol.UserProtocol.init({ email: email, password: password }, null, protocolOpts);
             var request = new _httpRequest.HttpRequest(protocol);
             var promise = request.execute().then(function (data) {
                 return JSON.parse(data);
