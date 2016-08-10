@@ -1,8 +1,10 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -10,28 +12,29 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var sharedInstance = void 0;
 var SDKOptions = exports.SDKOptions = {
-    HOST: "api.scorocode.ru",
-    PORT: "443",
+    WSHOST: 'wss.scorocode.ru',
+    HOST: 'api.scorocode.ru',
+    PORT: '443',
 
-    FIND_URL: "/api/v1/data/find",
-    COUNT_URL: "/api/v1/data/count",
-    UPDATE_URL: "/api/v1/data/update",
-    UPDATE_BY_ID_URL: "/api/v1/data/updatebyid",
-    REMOVE_URL: "/api/v1/data/remove",
-    INSERT_URL: "/api/v1/data/insert",
+    FIND_URL: '/api/v1/data/find',
+    COUNT_URL: '/api/v1/data/count',
+    UPDATE_URL: '/api/v1/data/update',
+    UPDATE_BY_ID_URL: '/api/v1/data/updatebyid',
+    REMOVE_URL: '/api/v1/data/remove',
+    INSERT_URL: '/api/v1/data/insert',
 
-    SEND_EMAIL_URL: "/api/v1/sendemail",
-    SEND_PUSH_URL: "/api/v1/sendpush",
-    SEND_SMS_URL: "/api/v1/sendsms",
+    SEND_EMAIL_URL: '/api/v1/sendemail',
+    SEND_PUSH_URL: '/api/v1/sendpush',
+    SEND_SMS_URL: '/api/v1/sendsms',
 
-    CLOUD_CODE_URL: "/api/v1/scripts",
+    CLOUD_CODE_URL: '/api/v1/scripts',
 
-    UPLOAD_URL: "/api/v1/upload",
-    GET_FILE_LINK_URL: "",
+    UPLOAD_URL: '/api/v1/upload',
+    GET_FILE_LINK_URL: '',
 
-    SIGN_UP_URL: "/api/v1/register",
-    LOGOUT_URL: "/api/v1/logout",
-    LOGIN_URL: "/api/v1/login",
+    SIGN_UP_URL: '/api/v1/register',
+    LOGOUT_URL: '/api/v1/logout',
+    LOGIN_URL: '/api/v1/login',
 
     DATA_STATS: '/api/v1/stat',
 
@@ -61,6 +64,7 @@ var Client = exports.Client = function () {
         this.messageKey = options.MessageKey || "";
         this.scriptKey = options.ScriptKey || "";
         this.fileKey = options.FileKey || "";
+        this.websocketKey = options.WebSocketKey || "";
         this.sessionId = "";
 
         this.host = "https://scorocode.ru";
@@ -70,28 +74,33 @@ var Client = exports.Client = function () {
         if (options.EncryptKey && typeof options.EncryptKey !== 'string') {
             throw new Error('Invalid EncryptKey');
         }
-        this.EncryptKey = "";
+        this.EncryptKey = '';
+        this.isNode = false;
+
+        if ((typeof process === 'undefined' ? 'undefined' : _typeof(process)) === 'object' && process + '' === '[object process]') {
+            this.isNode = true;
+        }
     }
 
     _createClass(Client, [{
-        key: "get",
+        key: 'get',
         value: function get(key) {
             return SDKOptions[key];
         }
     }, {
-        key: "set",
+        key: 'set',
         value: function set(key, value) {
             SDKOptions[key] = value;
         }
     }], [{
-        key: "init",
+        key: 'init',
         value: function init(options) {
             var client = new Client(options);
             sharedInstance = client;
             return client;
         }
     }, {
-        key: "getInstance",
+        key: 'getInstance',
         value: function getInstance() {
             return sharedInstance;
         }

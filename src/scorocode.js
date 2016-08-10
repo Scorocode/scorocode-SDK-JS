@@ -5,6 +5,7 @@ import { Client } from './client';
 import {SCUpdateOps} from './updateOps'
 import {SCMessenger} from './messenger'
 import {SCCloudCode} from './cloudCode'
+import {SCWebSocket} from './websocket'
 import {SCSystem} from './system'
 
 var Scorocode = {
@@ -20,6 +21,7 @@ Scorocode.User = SCUser;
 Scorocode.UpdateOps = SCUpdateOps;
 Scorocode.Messenger = SCMessenger;
 Scorocode.CloudCode = SCCloudCode;
+Scorocode.WebSocket = SCWebSocket;
 Scorocode.System = SCSystem;
 
 module.exports = Scorocode;

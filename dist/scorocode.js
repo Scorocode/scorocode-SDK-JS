@@ -14,6 +14,8 @@ var _messenger = require('./messenger');
 
 var _cloudCode = require('./cloudCode');
 
+var _websocket = require('./websocket');
+
 var _system = require('./system');
 
 var Scorocode = {
@@ -29,6 +31,7 @@ Scorocode.User = _user.SCUser;
 Scorocode.UpdateOps = _updateOps.SCUpdateOps;
 Scorocode.Messenger = _messenger.SCMessenger;
 Scorocode.CloudCode = _cloudCode.SCCloudCode;
+Scorocode.WebSocket = _websocket.SCWebSocket;
 Scorocode.System = _system.SCSystem;
 
 module.exports = Scorocode;
