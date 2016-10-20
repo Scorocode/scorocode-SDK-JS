@@ -114,6 +114,9 @@ export class SCObject {
         });
     }
     remove(options = {}) {
+        if (!this.attrs['_id']) {
+            throw new Error("Document does't exist");
+        }
         let query = new SCQuery(this.collection);
         return query.equalTo('_id',this.attrs._id).remove(options).then(data => {
             return data;

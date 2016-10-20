@@ -154,6 +154,9 @@ var SCObject = exports.SCObject = function () {
         value: function remove() {
             var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
+            if (!this.attrs['_id']) {
+                throw new Error("Document does't exist");
+            }
             var query = new _query.SCQuery(this.collection);
             return query.equalTo('_id', this.attrs._id).remove(options).then(function (data) {
                 return data;
