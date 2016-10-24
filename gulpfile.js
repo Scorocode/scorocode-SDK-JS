@@ -13,12 +13,16 @@ gulp.task('compile', function () {
 });
 
 gulp.task('browserify', function () {
-    return browserify({
-        standalone: 'Scorocode',
-        entries: 'src/scorocode.js'
-    }).transform("babelify", {presets: ["es2015"]})
-        .bundle()
-        .pipe(source('scorocode.js'))
+    var stream = browserify({
+        builtins: ['_process', 'buffer'],
+        entries: 'src/scorocode.js',
+        standalone: 'Scorocode'
+    })
+        .ignore('_process')
+        .transform("babelify", {presets: ["es2015"]})
+        .bundle();
+
+    return stream.pipe(source('scorocode.js'))
         .pipe(gulp.dest('./lib/browser/'));
 });
 
