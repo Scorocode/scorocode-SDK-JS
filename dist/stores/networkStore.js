@@ -164,8 +164,35 @@ var Network = exports.Network = function () {
             var protocolOpts = {
                 url: _client.SDKOptions.UPLOAD_URL
             };
-
+            var client = _client.Client.getInstance();
             var protocol = _protocol.DataProtocol.init(params, null, protocolOpts);
+
+            protocol.setAccessKey('acc', client.fileKey || client.masterKey);
+
+            var request = new _httpRequest.HttpRequest(protocol);
+            var promise = request.execute().then(function (data) {
+                return JSON.parse(data);
+            }).then(function (response) {
+                if (response.error) {
+                    return Promise.reject(response);
+                }
+
+                return response;
+            });
+
+            return _utils.Utils.wrapCallbacks(promise, options);
+        }
+    }, {
+        key: 'removeFile',
+        value: function removeFile(params, options) {
+            var protocolOpts = {
+                url: _client.SDKOptions.REMOVE_FILE_URL
+            };
+
+            var client = _client.Client.getInstance();
+            var protocol = _protocol.DataProtocol.init(params, null, protocolOpts);
+
+            protocol.setAccessKey('acc', client.fileKey || client.masterKey);
             var request = new _httpRequest.HttpRequest(protocol);
             var promise = request.execute().then(function (data) {
                 return JSON.parse(data);

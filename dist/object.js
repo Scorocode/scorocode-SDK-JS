@@ -79,6 +79,34 @@ var SCObject = exports.SCObject = function () {
             return 'https://api.scorocode.ru/api/v1/getfile/' + client.applicationID + '/' + this.collection + '/' + field + '/' + this.attrs._id + '/' + this.attrs[field];
         }
     }, {
+        key: "removeFile",
+        value: function removeFile(field) {
+            var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+            if (!this.attrs['_id']) {
+                throw new Error('You must first create a document and upload file');
+            }
+
+            if (!this.attrs.hasOwnProperty(field)) {
+                throw new Error('Unknown field');
+            }
+
+            if (!this.attrs[field]) {
+                throw new Error('Field is empty');
+            }
+
+            var QueryJSON = this.toJson();
+            var params = {
+                coll: QueryJSON.coll,
+                docId: this.attrs['_id'],
+                field: field,
+                file: this.attrs[field]
+            };
+            return _data.DataStore.getInstance().removeFile(params, options).then(function (data) {
+                return data;
+            });
+        }
+    }, {
         key: "uploadFile",
         value: function uploadFile(field, filename, file) {
             var _this2 = this;

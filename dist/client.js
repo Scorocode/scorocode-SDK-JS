@@ -30,6 +30,7 @@ var SDKOptions = exports.SDKOptions = {
     CLOUD_CODE_URL: '/api/v1/scripts',
 
     UPLOAD_URL: '/api/v1/upload',
+    REMOVE_FILE_URL: '/api/v1/deletefile',
     GET_FILE_LINK_URL: '',
 
     SIGN_UP_URL: '/api/v1/register',

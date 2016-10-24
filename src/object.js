@@ -55,6 +55,31 @@ export class SCObject {
         return 'https://api.scorocode.ru/api/v1/getfile/' + client.applicationID + '/' + this.collection + '/' + field + '/' + this.attrs._id + '/' + this.attrs[field];
     }
 
+    removeFile(field, options = {}) {
+        if (!this.attrs['_id']) {
+            throw new Error('You must first create a document and upload file');
+        }
+
+        if (!this.attrs.hasOwnProperty(field)) {
+            throw new Error('Unknown field');
+        }
+
+        if (!this.attrs[field]) {
+            throw new Error('Field is empty');
+        }
+
+        let QueryJSON = this.toJson();
+        let params = {
+            coll: QueryJSON.coll,
+            docId: this.attrs['_id'],
+            field: field,
+            file: this.attrs[field]
+        };
+        return DataStore.getInstance().removeFile(params, options).then(data => {
+            return data;
+        });
+    }
+
     uploadFile(field, filename, file, options = {}) {
         if (!this.attrs['_id']) {
             throw new Error('You must first create a document');

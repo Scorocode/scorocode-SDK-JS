@@ -1,5 +1,4 @@
 import {Client} from './client'
-import {Utils} from "./utils"
 
 export class Protocol {
     constructor(client, opts) {

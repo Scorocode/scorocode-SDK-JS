@@ -1,8 +1,8 @@
-import {UserProtocol, DataProtocol, CloudProtocol} from '../protocol'
+import {DataProtocol, CloudProtocol} from '../protocol'
 import {HttpRequest} from '../httpRequest'
 import {Utils} from '../utils'
 import {deserializeFast} from '../bson'
-import {SDKOptions} from '../client'
+import {SDKOptions, Client} from '../client'
 
 export class Network {
     constructor() {}
@@ -146,8 +146,35 @@ export class Network {
         let protocolOpts = {
             url: SDKOptions.UPLOAD_URL
         };
-
+        const client = Client.getInstance();
         const protocol = DataProtocol.init(params, null, protocolOpts);
+
+        protocol.setAccessKey('acc', client.fileKey || client.masterKey);
+
+        const request = new HttpRequest(protocol);
+        const promise = request.execute()
+            .then(data => {
+                return JSON.parse(data);
+            })
+            .then(response => {
+                if (response.error) {
+                    return Promise.reject(response);
+                }
+
+                return response;
+            });
+
+        return Utils.wrapCallbacks(promise, options);
+    }
+    removeFile(params, options) {
+        let protocolOpts = {
+            url: SDKOptions.REMOVE_FILE_URL
+        };
+
+        const client = Client.getInstance();
+        const protocol = DataProtocol.init(params, null, protocolOpts);
+
+        protocol.setAccessKey('acc', client.fileKey || client.masterKey);
         const request = new HttpRequest(protocol);
         const promise = request.execute()
             .then(data => {
