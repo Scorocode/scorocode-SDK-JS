@@ -1,6 +1,7 @@
 let sharedInstance;
 export const SDKOptions = {
     WSHOST: 'wss.scorocode.ru',
+    WS_PROTOCOL: 'wss',
     HOST: 'api.scorocode.ru',
     PORT: '443',
 

@@ -23,14 +23,15 @@ var SCWebSocket = exports.SCWebSocket = function () {
             throw new Error('Channel name is empty');
         }
 
-        var client = _client.Client.getInstance();
-        var ws = client.isNode ? require('ws') : WebSocket;
+        var cl = _client.Client.getInstance();
+        var ws = cl.isNode ? require('ws') : WebSocket;
 
-        var AppId = client.applicationID;
-        var wsKey = client.websocketKey;
-        var host = client.get('WSHOST');
+        var AppId = cl.applicationID;
+        var wsKey = cl.websocketKey;
+        var host = cl.get('WSHOST');
+        var protocol = cl.get('WS_PROTOCOL');
 
-        this.wsInstanse = new ws('wss://' + host + '/' + AppId + '/' + wsKey + '/' + chanName);
+        this.wsInstanse = new ws(protocol + '://' + host + '/' + AppId + '/' + wsKey + '/' + chanName);
         this._handlers = {};
 
         this.wsInstanse.onclose = function (event) {

@@ -13,6 +13,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var sharedInstance = void 0;
 var SDKOptions = exports.SDKOptions = {
     WSHOST: 'wss.scorocode.ru',
+    WS_PROTOCOL: 'wss',
     HOST: 'api.scorocode.ru',
     PORT: '443',
 

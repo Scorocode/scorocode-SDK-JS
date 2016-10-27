@@ -18,6 +18,8 @@ var _websocket = require('./websocket');
 
 var _system = require('./system');
 
+var _debugger = require('./debugger');
+
 var Scorocode = {
     Init: function Init(opt) {
         var client = _client.Client.init(opt);
@@ -33,5 +35,6 @@ Scorocode.Messenger = _messenger.SCMessenger;
 Scorocode.CloudCode = _cloudCode.SCCloudCode;
 Scorocode.WebSocket = _websocket.SCWebSocket;
 Scorocode.System = _system.SCSystem;
+Scorocode.Debugger = _debugger.SCDebugger;
 
 module.exports = Scorocode;

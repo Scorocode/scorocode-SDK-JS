@@ -8,14 +8,15 @@ export class SCWebSocket {
             throw new Error('Channel name is empty');
         }
 
-        const client = Client.getInstance();
-        const ws = client.isNode ? require('ws') : WebSocket;
+        var cl = Client.getInstance();
+        const ws = cl.isNode ? require('ws') : WebSocket;
 
-        let AppId = client.applicationID;
-        let wsKey = client.websocketKey;
-        let host = client.get('WSHOST');
+        let AppId = cl.applicationID;
+        let wsKey = cl.websocketKey;
+        let host = cl.get('WSHOST');
+        let protocol = cl.get('WS_PROTOCOL');
 
-        this.wsInstanse = new ws('wss://' + host + '/' + AppId + '/' + wsKey + '/' + chanName);
+        this.wsInstanse = new ws(protocol+'://' + host + '/' + AppId + '/' + wsKey + '/' + chanName);
         this._handlers = {};
 
         this.wsInstanse.onclose = function (event) {

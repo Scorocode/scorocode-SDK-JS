@@ -17,14 +17,36 @@ var _httpRequest = require('./httpRequest');
 
 var _client = require('./client');
 
+var _websocket = require('./websocket');
+
+var _debugger = require('./debugger');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var SCCloudCode = exports.SCCloudCode = function () {
     function SCCloudCode(id) {
+        var _this = this;
+
+        var opt = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
         _classCallCheck(this, SCCloudCode);
 
         if (typeof id !== 'string') {
             throw new Error('Invalid script id');
+        }
+
+        if (opt.debugger instanceof _debugger.SCDebugger) {
+            this.debugger = opt.debugger;
+            this._ws = new _websocket.SCWebSocket(id + "_debug");
+            this._ws.on("open", function () {
+                _this.debugger.log('Debugger is active');
+            });
+            this._ws.on("error", function (err) {
+                _this.debugger.error(err);
+            });
+            this._ws.on("message", function (msg) {
+                _this.debugger.log(msg);
+            });
         }
 
         this.id = id;
@@ -34,10 +56,15 @@ var SCCloudCode = exports.SCCloudCode = function () {
         key: 'run',
         value: function run() {
             var pool = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-            var callbacks = arguments[1];
+            var debug = arguments[1];
+            var callbacks = arguments[2];
 
             if ((typeof pool === 'undefined' ? 'undefined' : _typeof(pool)) !== 'object') {
                 throw new Error('Invalid type of pool');
+            }
+
+            if ((typeof debug === 'undefined' ? 'undefined' : _typeof(debug)) === 'object') {
+                callbacks = debug;
             }
 
             var protocolOpts = {
@@ -46,7 +73,8 @@ var SCCloudCode = exports.SCCloudCode = function () {
 
             var protocol = _protocol.CloudCodeProtocol.init({
                 script: this.id,
-                pool: pool
+                pool: pool,
+                debug: debug
             }, protocolOpts);
 
             var request = new _httpRequest.HttpRequest(protocol);
