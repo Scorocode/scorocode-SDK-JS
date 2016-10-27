@@ -7,7 +7,7 @@ import {SCMessenger} from './messenger'
 import {SCCloudCode} from './cloudCode'
 import {SCWebSocket} from './websocket'
 import {SCSystem} from './system'
-import {SCDebugger} from './debugger'
+import {SCLogger} from './logger'
 
 var Scorocode = {
     Init: function (opt) {
@@ -24,6 +24,6 @@ Scorocode.Messenger = SCMessenger;
 Scorocode.CloudCode = SCCloudCode;
 Scorocode.WebSocket = SCWebSocket;
 Scorocode.System = SCSystem;
-Scorocode.Debugger = SCDebugger;
+Scorocode.Logger = SCLogger;
 
 module.exports = Scorocode;

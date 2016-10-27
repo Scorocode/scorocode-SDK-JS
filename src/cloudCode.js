@@ -3,7 +3,7 @@ import {Utils} from './utils'
 import {HttpRequest} from './httpRequest'
 import {SDKOptions} from './client'
 import {SCWebSocket} from './websocket'
-import {SCDebugger} from './debugger'
+import {SCLogger} from './logger'
 
 export class SCCloudCode {
     constructor(id, opt = {}) {
@@ -11,17 +11,17 @@ export class SCCloudCode {
             throw new Error('Invalid script id');
         }
 
-        if (opt.debugger instanceof SCDebugger) {
-            this.debugger = opt.debugger;
+        if (opt.logger instanceof SCLogger) {
+            this.logger = opt.logger;
             this._ws = new SCWebSocket(id + "_debug");
             this._ws.on("open", () => {
-               this.debugger.log('Debugger is active');
+               this.logger.log('Debugger is active');
             });
             this._ws.on("error", (err) => {
-                this.debugger.error(err);
+                this.logger.error(err);
             });
             this._ws.on("message", (msg) => {
-                this.debugger.log(msg);
+                this.logger.log(msg);
             });
         }
 

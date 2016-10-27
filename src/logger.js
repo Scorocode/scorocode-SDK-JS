@@ -1,4 +1,4 @@
-export class SCDebugger {
+export class SCLogger {
     constructor(opt = {}) {
         this.log = function() {
             console.log.apply(this, arguments);

@@ -19,7 +19,7 @@ var _client = require('./client');
 
 var _websocket = require('./websocket');
 
-var _debugger = require('./debugger');
+var _logger = require('./logger');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -35,17 +35,17 @@ var SCCloudCode = exports.SCCloudCode = function () {
             throw new Error('Invalid script id');
         }
 
-        if (opt.debugger instanceof _debugger.SCDebugger) {
-            this.debugger = opt.debugger;
+        if (opt.logger instanceof _logger.SCLogger) {
+            this.logger = opt.logger;
             this._ws = new _websocket.SCWebSocket(id + "_debug");
             this._ws.on("open", function () {
-                _this.debugger.log('Debugger is active');
+                _this.logger.log('Debugger is active');
             });
             this._ws.on("error", function (err) {
-                _this.debugger.error(err);
+                _this.logger.error(err);
             });
             this._ws.on("message", function (msg) {
-                _this.debugger.log(msg);
+                _this.logger.log(msg);
             });
         }
 
