@@ -110,7 +110,7 @@ export class MessengerProtocol extends Protocol {
         const client = Client.getInstance();
         const protocol = new MessengerProtocol(client, options);
         protocol.setData(data);
-        protocol.setAccessKey('acc', client.messageKey || client.masterKey);
+        protocol.setAccessKey('acc', client.masterKey || client.messageKey);
         return protocol;
     }
 }
@@ -124,7 +124,7 @@ export class CloudCodeProtocol extends Protocol {
         const client = Client.getInstance();
         const protocol = new CloudCodeProtocol(client, options);
         protocol.setData(data);
-        protocol.setAccessKey('acc', client.scriptKey || client.masterKey);
+        protocol.setAccessKey('acc', client.masterKey || client.scriptKey);
         return protocol;
     }
 }

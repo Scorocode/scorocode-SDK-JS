@@ -167,7 +167,7 @@ var Network = exports.Network = function () {
             var client = _client.Client.getInstance();
             var protocol = _protocol.DataProtocol.init(params, null, protocolOpts);
 
-            protocol.setAccessKey('acc', client.fileKey || client.masterKey);
+            protocol.setAccessKey('acc', client.masterKey || client.fileKey);
 
             var request = new _httpRequest.HttpRequest(protocol);
             var promise = request.execute().then(function (data) {
@@ -192,7 +192,7 @@ var Network = exports.Network = function () {
             var client = _client.Client.getInstance();
             var protocol = _protocol.DataProtocol.init(params, null, protocolOpts);
 
-            protocol.setAccessKey('acc', client.fileKey || client.masterKey);
+            protocol.setAccessKey('acc', client.masterKey || client.fileKey);
             var request = new _httpRequest.HttpRequest(protocol);
             var promise = request.execute().then(function (data) {
                 return JSON.parse(data);

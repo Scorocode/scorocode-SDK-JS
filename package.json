@@ -1,6 +1,6 @@
 {
   "name": "scorocode",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Scorocode Javascript SDK",
   "dependencies": {
     "bufferutil": "^1.2.1",

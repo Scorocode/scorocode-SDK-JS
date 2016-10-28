@@ -166,7 +166,7 @@ var MessengerProtocol = exports.MessengerProtocol = function (_Protocol3) {
             var client = _client.Client.getInstance();
             var protocol = new MessengerProtocol(client, options);
             protocol.setData(data);
-            protocol.setAccessKey('acc', client.messageKey || client.masterKey);
+            protocol.setAccessKey('acc', client.masterKey || client.messageKey);
             return protocol;
         }
     }]);
@@ -189,7 +189,7 @@ var CloudCodeProtocol = exports.CloudCodeProtocol = function (_Protocol4) {
             var client = _client.Client.getInstance();
             var protocol = new CloudCodeProtocol(client, options);
             protocol.setData(data);
-            protocol.setAccessKey('acc', client.scriptKey || client.masterKey);
+            protocol.setAccessKey('acc', client.masterKey || client.scriptKey);
             return protocol;
         }
     }]);

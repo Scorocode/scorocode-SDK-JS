@@ -149,7 +149,7 @@ export class Network {
         const client = Client.getInstance();
         const protocol = DataProtocol.init(params, null, protocolOpts);
 
-        protocol.setAccessKey('acc', client.fileKey || client.masterKey);
+        protocol.setAccessKey('acc', client.masterKey || client.fileKey);
 
         const request = new HttpRequest(protocol);
         const promise = request.execute()
@@ -174,7 +174,7 @@ export class Network {
         const client = Client.getInstance();
         const protocol = DataProtocol.init(params, null, protocolOpts);
 
-        protocol.setAccessKey('acc', client.fileKey || client.masterKey);
+        protocol.setAccessKey('acc', client.masterKey || client.fileKey);
         const request = new HttpRequest(protocol);
         const promise = request.execute()
             .then(data => {
