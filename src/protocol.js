@@ -50,8 +50,30 @@ export class Protocol {
         return this;
     }
 
-    setCollection(coll) {
+    setIndex(index) {
+        this.data.index = index;
+    }
+
+    setField(field) {
+        this.data.collField = field;
+    }
+
+    setPath(path) {
+        this.data.path = path;
+    }
+
+    setTriggers(triggers) {
+        this.data.triggers = triggers;
+    }
+
+    setColl(coll) {
         this.data.coll = coll;
+
+        return this;
+    }
+
+    setCollection(coll) {
+        this.data.collection = coll;
 
         return this;
     }

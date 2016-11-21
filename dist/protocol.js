@@ -65,9 +65,36 @@ var Protocol = exports.Protocol = function () {
             return this;
         }
     }, {
+        key: 'setIndex',
+        value: function setIndex(index) {
+            this.data.index = index;
+        }
+    }, {
+        key: 'setField',
+        value: function setField(field) {
+            this.data.collField = field;
+        }
+    }, {
+        key: 'setPath',
+        value: function setPath(path) {
+            this.data.path = path;
+        }
+    }, {
+        key: 'setTriggers',
+        value: function setTriggers(triggers) {
+            this.data.triggers = triggers;
+        }
+    }, {
+        key: 'setColl',
+        value: function setColl(coll) {
+            this.data.coll = coll;
+
+            return this;
+        }
+    }, {
         key: 'setCollection',
         value: function setCollection(coll) {
-            this.data.coll = coll;
+            this.data.collection = coll;
 
             return this;
         }

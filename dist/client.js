@@ -40,6 +40,31 @@ var SDKOptions = exports.SDKOptions = {
 
     DATA_STATS: '/api/v1/stat',
 
+    /* Работа с приложением */
+    GET_APP_URL: '/api/v1/app',
+    GET_COLLECTIONS_URL: '/api/v1/app/collections',
+    GET_COLLECTION_URL: '/api/v1/app/collections/get',
+    CREATE_COLLECTION_URL: '/api/v1/app/collections/create',
+    UPDATE_COLLECTION_URL: '/api/v1/app/collections/update',
+    DELETE_COLLECTION_URL: '/api/v1/app/collections/delete',
+    CLONE_COLLECTION_URL: '/api/v1/app/collections/clone',
+    CREATE_INDEX_URL: '/api/v1/app/collections/index/create',
+    DELETE_INDEX_URL: '/api/v1/app/collections/index/delete',
+    CREATE_FIELD_URL: '/api/v1/app/collections/fields/create',
+    DELETE_FIELD_URL: '/api/v1/app/collections/fields/delete',
+    UPDATE_TRIGGERS_URL: '/api/v1/app/collections/triggers',
+    GET_FOLDERS_URL: '/api/v1/app/scripts/folders',
+    CREATE_FOLDER_URL: '/api/v1/app/scripts/folders/create',
+    DELETE_FOLDER_URL: '/api/v1/app/scripts/folders/delete',
+    GET_SCRIPT_URL: '/api/v1/app/scripts/get',
+    CREATE_SCRIPT_URL: '/api/v1/app/scripts/create',
+    UPDATE_SCRIPT_URL: '/api/v1/app/scripts/update',
+    DELETE_SCRIPT_URL: '/api/v1/app/scripts/delete',
+    GET_BOTS_URL: '/api/v1/bots',
+    CREATE_BOT_URL: '/api/v1/bots/create',
+    UPDATE_BOT_URL: '/api/v1/bots/update',
+    DELETE_BOT_URL: '/api/v1/bots/delete',
+
     TIMEOUT: 5000
 
 };
