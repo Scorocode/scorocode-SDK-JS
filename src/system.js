@@ -547,7 +547,11 @@ class Script {
 class App {
     constructor(data){
         this.collection = Collection;
+        for (let it in data) {
+            this[it] = data[it];
+        }
     }
+
 
     getCollections(callbacks = {}) {
         let protocolOpts = {

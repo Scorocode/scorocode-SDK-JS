@@ -608,6 +608,9 @@ var App = function () {
         _classCallCheck(this, App);
 
         this.collection = Collection;
+        for (var it in data) {
+            this[it] = data[it];
+        }
     }
 
     _createClass(App, [{
