@@ -336,14 +336,14 @@ var Collection = function () {
 
             for (var it in collection) {
                 if (it === 'fields') {
-                    this.fields = collection[it].fields.map(function (field) {
+                    this.fields = collection[it].map(function (field) {
                         return new Field(_this5.name, field);
                     });
                     continue;
                 }
 
                 if (it === 'indexes') {
-                    this.indexes = collection[it].indexes.map(function (index) {
+                    this.indexes = collection[it].map(function (index) {
                         return new Index(_this5.name, index.name, index.fields);
                     });
                     continue;
@@ -716,6 +716,8 @@ var App = function () {
             protocol.setData({
                 script: id
             });
+
+            console.log(protocol);
 
             var request = new _httpRequest.HttpRequest(protocol);
             var promise = request.execute().then(function (data) {

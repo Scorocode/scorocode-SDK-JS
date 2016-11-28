@@ -19,62 +19,39 @@ var _httpRequest = require('./httpRequest');
 
 var _client = require('./client');
 
+var _websocket = require('./websocket');
+
+var _logger = require('./logger');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var SCMessenger = exports.SCMessenger = function () {
     function SCMessenger() {
+        var _this = this;
+
+        var opt = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
         _classCallCheck(this, SCMessenger);
+
+        if (opt.logger instanceof _logger.SCLogger) {
+            this.logger = opt.logger;
+            this._ws = new _websocket.SCWebSocket("messenger_debugger");
+            this._ws.on("open", function () {
+                _this.logger.log('Debugger is active');
+            });
+            this._ws.on("error", function (err) {
+                _this.logger.error(err);
+            });
+            this._ws.on("message", function (msg) {
+                _this.logger.log(msg);
+            });
+        }
     }
 
     _createClass(SCMessenger, [{
-        key: 'sendEmail',
-        value: function sendEmail(options) {
-            var callbacks = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-            if ((typeof options === 'undefined' ? 'undefined' : _typeof(options)) !== 'object') {
-                throw new Error('Invalid options type');
-            }
-
-            if (!(options.where instanceof _query.SCQuery)) {
-                throw new Error('Where must be a type of Query');
-            }
-
-            if (_typeof(options.data) !== 'object') {
-                throw new Error('Invalid data type');
-            }
-
-            if (typeof options.data.subject !== 'string' || typeof options.data.text !== 'string') {
-                throw new Error('Missing subject or text message');
-            }
-
-            var protocolOpts = {
-                url: _client.SDKOptions.SEND_EMAIL_URL
-            };
-
-            var data = {
-                msg: options.data
-            };
-
-            _utils.Utils.extend(data, options.where.toJson());
-
-            var protocol = _protocol.MessengerProtocol.init(data, protocolOpts);
-            var request = new _httpRequest.HttpRequest(protocol);
-            var promise = request.execute().then(function (data) {
-                return JSON.parse(data);
-            }).then(function (response) {
-                if (response.error) {
-                    return Promise.reject(response);
-                }
-
-                return response;
-            });
-
-            return _utils.Utils.wrapCallbacks(promise, callbacks);
-        }
-    }, {
         key: 'sendPush',
-        value: function sendPush(options) {
-            var callbacks = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+        value: function sendPush(options, debug) {
+            var callbacks = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
             if ((typeof options === 'undefined' ? 'undefined' : _typeof(options)) !== 'object') {
                 throw new Error('Invalid options type');
@@ -92,12 +69,17 @@ var SCMessenger = exports.SCMessenger = function () {
                 throw new Error('Missing subject or text message');
             }
 
+            if ((typeof debug === 'undefined' ? 'undefined' : _typeof(debug)) === 'object') {
+                callbacks = debug;
+            }
+
             var protocolOpts = {
                 url: _client.SDKOptions.SEND_PUSH_URL
             };
 
             var data = {
-                msg: options.data
+                msg: options.data,
+                debug: debug
             };
 
             _utils.Utils.extend(data, options.where.toJson());
@@ -118,8 +100,8 @@ var SCMessenger = exports.SCMessenger = function () {
         }
     }, {
         key: 'sendSms',
-        value: function sendSms(options) {
-            var callbacks = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+        value: function sendSms(options, debug) {
+            var callbacks = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
             if ((typeof options === 'undefined' ? 'undefined' : _typeof(options)) !== 'object') {
                 throw new Error('Invalid options type');
@@ -137,12 +119,17 @@ var SCMessenger = exports.SCMessenger = function () {
                 throw new Error('Missing subject or text message');
             }
 
+            if ((typeof debug === 'undefined' ? 'undefined' : _typeof(debug)) === 'object') {
+                callbacks = debug;
+            }
+
             var protocolOpts = {
                 url: _client.SDKOptions.SEND_SMS_URL
             };
 
             var data = {
-                msg: options.data
+                msg: options.data,
+                debug: debug
             };
 
             _utils.Utils.extend(data, options.where.toJson());

@@ -650,6 +650,8 @@ class App {
             script: id
         });
 
+        console.log(protocol)
+
         const request = new HttpRequest(protocol);
         const promise = request.execute()
             .then(data => {

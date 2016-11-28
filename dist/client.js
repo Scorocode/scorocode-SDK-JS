@@ -24,7 +24,6 @@ var SDKOptions = exports.SDKOptions = {
     REMOVE_URL: '/api/v1/data/remove',
     INSERT_URL: '/api/v1/data/insert',
 
-    SEND_EMAIL_URL: '/api/v1/sendemail',
     SEND_PUSH_URL: '/api/v1/sendpush',
     SEND_SMS_URL: '/api/v1/sendsms',
 
