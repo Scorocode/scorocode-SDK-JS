@@ -5,35 +5,66 @@ import {SDKOptions} from './client'
 
 class Bot {
     constructor(data) {
+        this._extend(data);
+    }
+
+    _extend(data) {
         for (let it in data) {
             this[it] = data[it];
         }
     }
 
-    update() {
-        let protocolOpts = {
-            url: SDKOptions.UPDATE_BOT_URL
-        };
+    save(callbacks = {}) {
+        if (!this._id) {
+            let protocolOpts = {
+                url: SDKOptions.CREATE_BOT_URL
+            };
 
-        const protocol = Protocol.init(protocolOpts);
-        protocol.setData({
-            bot: this
-        });
-
-        const request = new HttpRequest(protocol);
-        const promise = request.execute()
-            .then(data => {
-                return JSON.parse(data);
-            })
-            .then(response => {
-                if (response.error) {
-                    return Promise.reject(response);
-                }
-
-                return this;
+            const protocol = Protocol.init(protocolOpts);
+            protocol.setData({
+                bot: this
             });
 
-        return promise;
+            const request = new HttpRequest(protocol);
+            const promise = request.execute()
+                .then(data => {
+                    return JSON.parse(data);
+                })
+                .then(response => {
+                    if (response.error) {
+                        return Promise.reject(response);
+                    }
+
+                    this._extend(response.bot);
+
+                    return this;
+                });
+            return Utils.wrapCallbacks(promise, callbacks);
+        } else {
+            let protocolOpts = {
+                url: SDKOptions.UPDATE_BOT_URL
+            };
+
+            const protocol = Protocol.init(protocolOpts);
+            protocol.setData({
+                bot: this
+            });
+
+            const request = new HttpRequest(protocol);
+            const promise = request.execute()
+                .then(data => {
+                    return JSON.parse(data);
+                })
+                .then(response => {
+                    if (response.error) {
+                        return Promise.reject(response);
+                    }
+
+                    return this;
+                });
+
+            return promise;
+        }
     }
 
     remove() {
@@ -546,8 +577,8 @@ class Script {
 
 class App {
     constructor(data){
-        this.collection = Collection;
-        this.bot = Bot;
+        this.Collection = Collection;
+        this.Bot = Bot;
 
         for (let it in data) {
             this[it] = data[it];
@@ -720,30 +751,6 @@ class App {
 
     }
 
-    createBot(data, callbacks = {}) {
-        let protocolOpts = {
-            url: SDKOptions.CREATE_BOT_URL
-        };
-
-        const protocol = Protocol.init(protocolOpts);
-        protocol.setData({
-            bot: data
-        });
-
-        const request = new HttpRequest(protocol);
-        const promise = request.execute()
-            .then(data => {
-                return JSON.parse(data);
-            })
-            .then(response => {
-                if (response.error) {
-                    return Promise.reject(response);
-                }
-
-                return new Bot(response.bot);
-            });
-        return Utils.wrapCallbacks(promise, callbacks);
-    }
 }
 
 export class SCSystem {
