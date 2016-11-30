@@ -587,7 +587,7 @@ class Script {
             };
             const protocol = Protocol.init(protocolOpts);
             protocol.setData({
-                cloudCode: data
+                cloudCode: this
             });
 
             const request = new HttpRequest(protocol);
