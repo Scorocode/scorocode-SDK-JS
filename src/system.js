@@ -96,6 +96,7 @@ class Bot {
     }
 
 }
+
 class Triggers {
     constructor(collName, triggers) {
 
@@ -485,9 +486,37 @@ class Collection {
 
 class Folder {
     constructor(folder) {
+        this._extend(folder);
+    }
+
+    _extend(folder) {
         for (let it in folder) {
             this[it] = folder[it];
         }
+    }
+
+    createFolder(callbacks = {}) {
+        let protocolOpts = {
+            url: SDKOptions.CREATE_FOLDER_URL
+        };
+        const protocol = Protocol.init(protocolOpts);
+        protocol.setPath(this.path);
+
+        const request = new HttpRequest(protocol);
+        const promise = request.execute()
+            .then(data => {
+                return JSON.parse(data);
+            })
+            .then(response => {
+                if (response.error) {
+                    return Promise.reject(response);
+                }
+
+                this._extend(response.folder);
+                return this;
+            });
+
+        return Utils.wrapCallbacks(promise, callbacks);
     }
 
     remove() {
@@ -516,9 +545,7 @@ class Folder {
 
 class Script {
     constructor(script) {
-        for (let it in script) {
-            this[it] = script[it];
-        }
+        this._extend(script);
     }
 
     remove() {
@@ -547,31 +574,62 @@ class Script {
         return promise;
     }
 
-    update() {
-        let protocolOpts = {
-            url: SDKOptions.UPDATE_SCRIPT_URL
-        };
+    _extend(script) {
+        for (let it in script) {
+            this[it] = script[it];
+        }
+    }
 
-        const protocol = Protocol.init(protocolOpts);
-        protocol.setData({
-            script: this._id,
-            cloudCode: this
-        });
-
-        const request = new HttpRequest(protocol);
-        const promise = request.execute()
-            .then(data => {
-                return JSON.parse(data);
-            })
-            .then(response => {
-                if (response.error) {
-                    return Promise.reject(response);
-                }
-
-                return this;
+    save(callbacks = {}) {
+        if (!this._id) {
+            let protocolOpts = {
+                url: SDKOptions.CREATE_SCRIPT_URL
+            };
+            const protocol = Protocol.init(protocolOpts);
+            protocol.setData({
+                cloudCode: data
             });
 
-        return promise;
+            const request = new HttpRequest(protocol);
+            const promise = request.execute()
+                .then(data => {
+                    return JSON.parse(data);
+                })
+                .then(response => {
+                    if (response.error) {
+                        return Promise.reject(response);
+                    }
+
+                    this._extend(response.script);
+                    return this;
+                });
+            return Utils.wrapCallbacks(promise, callbacks);
+        } else {
+            let protocolOpts = {
+                url: SDKOptions.UPDATE_SCRIPT_URL
+            };
+
+            const protocol = Protocol.init(protocolOpts);
+            protocol.setData({
+                script: this._id,
+                cloudCode: this
+            });
+
+            const request = new HttpRequest(protocol);
+            const promise = request.execute()
+                .then(data => {
+                    return JSON.parse(data);
+                })
+                .then(response => {
+                    if (response.error) {
+                        return Promise.reject(response);
+                    }
+
+                    return this;
+                });
+
+            return Utils.wrapCallbacks(promise, callbacks);
+        }
     }
 }
 
@@ -579,12 +637,13 @@ class App {
     constructor(data){
         this.Collection = Collection;
         this.Bot = Bot;
+        this.Folder = Folder;
+        this.Script = Script;
 
         for (let it in data) {
             this[it] = data[it];
         }
     }
-
 
     getCollections(callbacks = {}) {
         let protocolOpts = {
@@ -645,34 +704,6 @@ class App {
         return Utils.wrapCallbacks(promise, callbacks);
     }
 
-    createFolder(path, callbacks = {}) {
-        let protocolOpts = {
-            url: SDKOptions.CREATE_FOLDER_URL
-        };
-        const protocol = Protocol.init(protocolOpts);
-        protocol.setPath(path);
-
-        const request = new HttpRequest(protocol);
-        const promise = request.execute()
-            .then(data => {
-                return JSON.parse(data);
-            })
-            .then(response => {
-                if (response.error) {
-                    return Promise.reject(response);
-                }
-
-                return new Folder({
-                    isScript: false,
-                    path: path,
-                    name: path.split('/').pop(),
-                    scriptId: ''
-                });
-            });
-
-        return Utils.wrapCallbacks(promise, callbacks);
-    }
-
     getScript(id, callbacks = {}) {
         let protocolOpts = {
             url: SDKOptions.GET_SCRIPT_URL
@@ -696,31 +727,6 @@ class App {
                 return new Script(response.script);
             });
         return Utils.wrapCallbacks(promise, callbacks);
-    }
-
-    createScript(data, callbacks = {}) {
-        let protocolOpts = {
-            url: SDKOptions.CREATE_SCRIPT_URL
-        };
-        const protocol = Protocol.init(protocolOpts);
-        protocol.setData({
-            cloudCode: data
-        });
-
-        const request = new HttpRequest(protocol);
-        const promise = request.execute()
-            .then(data => {
-                return JSON.parse(data);
-            })
-            .then(response => {
-                if (response.error) {
-                    return Promise.reject(response);
-                }
-
-                return new Script(response.script);
-            });
-        return Utils.wrapCallbacks(promise, callbacks);
-
     }
 
     getBots(skip, limit, callbacks = {}) {
