@@ -547,6 +547,8 @@ class Script {
 class App {
     constructor(data){
         this.collection = Collection;
+        this.bot = Bot;
+
         for (let it in data) {
             this[it] = data[it];
         }
@@ -649,8 +651,6 @@ class App {
         protocol.setData({
             script: id
         });
-
-        console.log(protocol)
 
         const request = new HttpRequest(protocol);
         const promise = request.execute()
