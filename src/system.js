@@ -495,7 +495,7 @@ class Folder {
         }
     }
 
-    createFolder(callbacks = {}) {
+    create(callbacks = {}) {
         let protocolOpts = {
             url: SDKOptions.CREATE_FOLDER_URL
         };
