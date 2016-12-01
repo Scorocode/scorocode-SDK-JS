@@ -14,9 +14,7 @@ export class SCCloudCode {
         if (opt.logger instanceof SCLogger) {
             this.logger = opt.logger;
             this._ws = new SCWebSocket(id + "_debug");
-            this._ws.on("open", () => {
-               this.logger.log('Debugger is active');
-            });
+            this._ws.on("open", () => {});
             this._ws.on("error", (err) => {
                 this.logger.error(err);
             });
