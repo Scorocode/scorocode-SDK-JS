@@ -38,9 +38,7 @@ var SCCloudCode = exports.SCCloudCode = function () {
         if (opt.logger instanceof _logger.SCLogger) {
             this.logger = opt.logger;
             this._ws = new _websocket.SCWebSocket(id + "_debug");
-            this._ws.on("open", function () {
-                _this.logger.log('Debugger is active');
-            });
+            this._ws.on("open", function () {});
             this._ws.on("error", function (err) {
                 _this.logger.error(err);
             });

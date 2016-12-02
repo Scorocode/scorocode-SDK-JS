@@ -7,7 +7,7 @@ exports.SCSystem = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _protocol2 = require('./protocol');
+var _protocol4 = require('./protocol');
 
 var _utils = require('./utils');
 
@@ -21,37 +21,69 @@ var Bot = function () {
     function Bot(data) {
         _classCallCheck(this, Bot);
 
-        for (var it in data) {
-            this[it] = data[it];
-        }
+        this._extend(data);
     }
 
     _createClass(Bot, [{
-        key: 'update',
-        value: function update() {
+        key: '_extend',
+        value: function _extend(data) {
+            for (var it in data) {
+                this[it] = data[it];
+            }
+        }
+    }, {
+        key: 'save',
+        value: function save() {
             var _this = this;
 
-            var protocolOpts = {
-                url: _client.SDKOptions.UPDATE_BOT_URL
-            };
+            var callbacks = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-            var protocol = _protocol2.Protocol.init(protocolOpts);
-            protocol.setData({
-                bot: this
-            });
+            if (!this._id) {
+                var protocolOpts = {
+                    url: _client.SDKOptions.CREATE_BOT_URL
+                };
 
-            var request = new _httpRequest.HttpRequest(protocol);
-            var promise = request.execute().then(function (data) {
-                return JSON.parse(data);
-            }).then(function (response) {
-                if (response.error) {
-                    return Promise.reject(response);
-                }
+                var protocol = _protocol4.Protocol.init(protocolOpts);
+                protocol.setData({
+                    bot: this
+                });
 
-                return _this;
-            });
+                var request = new _httpRequest.HttpRequest(protocol);
+                var promise = request.execute().then(function (data) {
+                    return JSON.parse(data);
+                }).then(function (response) {
+                    if (response.error) {
+                        return Promise.reject(response);
+                    }
 
-            return promise;
+                    _this._extend(response.bot);
+
+                    return _this;
+                });
+                return _utils.Utils.wrapCallbacks(promise, callbacks);
+            } else {
+                var _protocolOpts = {
+                    url: _client.SDKOptions.UPDATE_BOT_URL
+                };
+
+                var _protocol = _protocol4.Protocol.init(_protocolOpts);
+                _protocol.setData({
+                    bot: this
+                });
+
+                var _request = new _httpRequest.HttpRequest(_protocol);
+                var _promise = _request.execute().then(function (data) {
+                    return JSON.parse(data);
+                }).then(function (response) {
+                    if (response.error) {
+                        return Promise.reject(response);
+                    }
+
+                    return _this;
+                });
+
+                return _promise;
+            }
         }
     }, {
         key: 'remove',
@@ -60,7 +92,7 @@ var Bot = function () {
                 url: _client.SDKOptions.DELETE_BOT_URL
             };
 
-            var protocol = _protocol2.Protocol.init(protocolOpts);
+            var protocol = _protocol4.Protocol.init(protocolOpts);
             protocol.setData({
                 bot: {
                     _id: this._id
@@ -110,7 +142,7 @@ var Triggers = function () {
                 url: _client.SDKOptions.UPDATE_TRIGGERS_URL
             };
 
-            var protocol = _protocol2.Protocol.init(protocolOpts);
+            var protocol = _protocol4.Protocol.init(protocolOpts);
             protocol.setColl(this.collName);
             protocol.setTriggers(this);
 
@@ -162,7 +194,7 @@ var Field = function () {
             var protocolOpts = {
                 url: _client.SDKOptions.CREATE_FIELD_URL
             };
-            var protocol = _protocol2.Protocol.init(protocolOpts);
+            var protocol = _protocol4.Protocol.init(protocolOpts);
             protocol.setColl(this.collName);
             protocol.setField(this);
 
@@ -190,7 +222,7 @@ var Field = function () {
                 url: _client.SDKOptions.DELETE_FIELD_URL
             };
 
-            var protocol = _protocol2.Protocol.init(protocolOpts);
+            var protocol = _protocol4.Protocol.init(protocolOpts);
             protocol.setColl(this.collName);
             protocol.setField(this);
 
@@ -235,7 +267,7 @@ var Index = function () {
                 url: _client.SDKOptions.CREATE_INDEX_URL
             };
 
-            var protocol = _protocol2.Protocol.init(protocolOpts);
+            var protocol = _protocol4.Protocol.init(protocolOpts);
             protocol.setColl(this.collName);
             protocol.setIndex(this);
 
@@ -258,7 +290,7 @@ var Index = function () {
                 url: _client.SDKOptions.DELETE_INDEX_URL
             };
 
-            var protocol = _protocol2.Protocol.init(protocolOpts);
+            var protocol = _protocol4.Protocol.init(protocolOpts);
             protocol.setColl(this.collName);
             protocol.setIndex({
                 name: this.name
@@ -384,7 +416,7 @@ var Collection = function () {
                 url: _client.SDKOptions.GET_COLLECTION_URL
             };
 
-            var protocol = _protocol2.Protocol.init(protocolOpts);
+            var protocol = _protocol4.Protocol.init(protocolOpts);
             protocol.setColl(this.name);
             var request = new _httpRequest.HttpRequest(protocol);
             var promise = request.execute().then(function (data) {
@@ -410,7 +442,7 @@ var Collection = function () {
                 var protocolOpts = {
                     url: _client.SDKOptions.CREATE_COLLECTION_URL
                 };
-                var protocol = _protocol2.Protocol.init(protocolOpts);
+                var protocol = _protocol4.Protocol.init(protocolOpts);
                 protocol.setCollection(this);
                 var request = new _httpRequest.HttpRequest(protocol);
                 var promise = request.execute().then(function (data) {
@@ -427,13 +459,13 @@ var Collection = function () {
 
                 return promise;
             } else {
-                var _protocolOpts = {
+                var _protocolOpts2 = {
                     url: _client.SDKOptions.UPDATE_COLLECTION_URL
                 };
-                var _protocol = _protocol2.Protocol.init(_protocolOpts);
-                _protocol.setCollection(this);
-                var _request = new _httpRequest.HttpRequest(_protocol);
-                var _promise = _request.execute().then(function (data) {
+                var _protocol2 = _protocol4.Protocol.init(_protocolOpts2);
+                _protocol2.setCollection(this);
+                var _request2 = new _httpRequest.HttpRequest(_protocol2);
+                var _promise2 = _request2.execute().then(function (data) {
                     return JSON.parse(data);
                 }).then(function (response) {
                     if (response.error) {
@@ -445,7 +477,7 @@ var Collection = function () {
                     return _this7;
                 });
 
-                return _promise;
+                return _promise2;
             }
         }
     }, {
@@ -454,7 +486,7 @@ var Collection = function () {
             var protocolOpts = {
                 url: _client.SDKOptions.DELETE_COLLECTION_URL
             };
-            var protocol = _protocol2.Protocol.init(protocolOpts);
+            var protocol = _protocol4.Protocol.init(protocolOpts);
             protocol.setCollection({
                 id: this.id
             });
@@ -477,7 +509,7 @@ var Collection = function () {
             var protocolOpts = {
                 url: _client.SDKOptions.CLONE_COLLECTION_URL
             };
-            var protocol = _protocol2.Protocol.init(protocolOpts);
+            var protocol = _protocol4.Protocol.init(protocolOpts);
             protocol.setCollection({
                 id: this.id,
                 name: name
@@ -504,18 +536,50 @@ var Folder = function () {
     function Folder(folder) {
         _classCallCheck(this, Folder);
 
-        for (var it in folder) {
-            this[it] = folder[it];
-        }
+        this._extend(folder);
     }
 
     _createClass(Folder, [{
+        key: '_extend',
+        value: function _extend(folder) {
+            for (var it in folder) {
+                this[it] = folder[it];
+            }
+        }
+    }, {
+        key: 'create',
+        value: function create() {
+            var _this8 = this;
+
+            var callbacks = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+            var protocolOpts = {
+                url: _client.SDKOptions.CREATE_FOLDER_URL
+            };
+            var protocol = _protocol4.Protocol.init(protocolOpts);
+            protocol.setPath(this.path);
+
+            var request = new _httpRequest.HttpRequest(protocol);
+            var promise = request.execute().then(function (data) {
+                return JSON.parse(data);
+            }).then(function (response) {
+                if (response.error) {
+                    return Promise.reject(response);
+                }
+
+                _this8._extend(response.folder);
+                return _this8;
+            });
+
+            return _utils.Utils.wrapCallbacks(promise, callbacks);
+        }
+    }, {
         key: 'remove',
         value: function remove() {
             var protocolOpts = {
                 url: _client.SDKOptions.DELETE_FOLDER_URL
             };
-            var protocol = _protocol2.Protocol.init(protocolOpts);
+            var protocol = _protocol4.Protocol.init(protocolOpts);
             protocol.setPath(this.path);
 
             var request = new _httpRequest.HttpRequest(protocol);
@@ -540,9 +604,7 @@ var Script = function () {
     function Script(script) {
         _classCallCheck(this, Script);
 
-        for (var it in script) {
-            this[it] = script[it];
-        }
+        this._extend(script);
     }
 
     _createClass(Script, [{
@@ -552,7 +614,7 @@ var Script = function () {
                 url: _client.SDKOptions.DELETE_SCRIPT_URL
             };
 
-            var protocol = _protocol2.Protocol.init(protocolOpts);
+            var protocol = _protocol4.Protocol.init(protocolOpts);
             protocol.setColl(this.collName);
             protocol.setData({
                 script: this._id
@@ -571,32 +633,64 @@ var Script = function () {
             return promise;
         }
     }, {
-        key: 'update',
-        value: function update() {
-            var _this8 = this;
+        key: '_extend',
+        value: function _extend(script) {
+            for (var it in script) {
+                this[it] = script[it];
+            }
+        }
+    }, {
+        key: 'save',
+        value: function save() {
+            var _this9 = this;
 
-            var protocolOpts = {
-                url: _client.SDKOptions.UPDATE_SCRIPT_URL
-            };
+            var callbacks = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-            var protocol = _protocol2.Protocol.init(protocolOpts);
-            protocol.setData({
-                script: this._id,
-                cloudCode: this
-            });
+            if (!this._id) {
+                var protocolOpts = {
+                    url: _client.SDKOptions.CREATE_SCRIPT_URL
+                };
+                var protocol = _protocol4.Protocol.init(protocolOpts);
+                protocol.setData({
+                    cloudCode: this
+                });
 
-            var request = new _httpRequest.HttpRequest(protocol);
-            var promise = request.execute().then(function (data) {
-                return JSON.parse(data);
-            }).then(function (response) {
-                if (response.error) {
-                    return Promise.reject(response);
-                }
+                var request = new _httpRequest.HttpRequest(protocol);
+                var promise = request.execute().then(function (data) {
+                    return JSON.parse(data);
+                }).then(function (response) {
+                    if (response.error) {
+                        return Promise.reject(response);
+                    }
 
-                return _this8;
-            });
+                    _this9._extend(response.script);
+                    return _this9;
+                });
+                return _utils.Utils.wrapCallbacks(promise, callbacks);
+            } else {
+                var _protocolOpts3 = {
+                    url: _client.SDKOptions.UPDATE_SCRIPT_URL
+                };
 
-            return promise;
+                var _protocol3 = _protocol4.Protocol.init(_protocolOpts3);
+                _protocol3.setData({
+                    script: this._id,
+                    cloudCode: this
+                });
+
+                var _request3 = new _httpRequest.HttpRequest(_protocol3);
+                var _promise3 = _request3.execute().then(function (data) {
+                    return JSON.parse(data);
+                }).then(function (response) {
+                    if (response.error) {
+                        return Promise.reject(response);
+                    }
+
+                    return _this9;
+                });
+
+                return _utils.Utils.wrapCallbacks(_promise3, callbacks);
+            }
         }
     }]);
 
@@ -607,7 +701,11 @@ var App = function () {
     function App(data) {
         _classCallCheck(this, App);
 
-        this.collection = Collection;
+        this.Collection = Collection;
+        this.Bot = Bot;
+        this.Folder = Folder;
+        this.Script = Script;
+
         for (var it in data) {
             this[it] = data[it];
         }
@@ -622,7 +720,7 @@ var App = function () {
                 url: _client.SDKOptions.GET_COLLECTIONS_URL
             };
 
-            var protocol = _protocol2.Protocol.init(protocolOpts);
+            var protocol = _protocol4.Protocol.init(protocolOpts);
             var request = new _httpRequest.HttpRequest(protocol);
             var promise = request.execute().then(function (data) {
                 return JSON.parse(data);
@@ -650,7 +748,7 @@ var App = function () {
                 url: _client.SDKOptions.GET_FOLDERS_URL
             };
 
-            var protocol = _protocol2.Protocol.init(protocolOpts);
+            var protocol = _protocol4.Protocol.init(protocolOpts);
             protocol.setPath(path);
 
             var request = new _httpRequest.HttpRequest(protocol);
@@ -675,35 +773,6 @@ var App = function () {
             return _utils.Utils.wrapCallbacks(promise, callbacks);
         }
     }, {
-        key: 'createFolder',
-        value: function createFolder(path) {
-            var callbacks = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-            var protocolOpts = {
-                url: _client.SDKOptions.CREATE_FOLDER_URL
-            };
-            var protocol = _protocol2.Protocol.init(protocolOpts);
-            protocol.setPath(path);
-
-            var request = new _httpRequest.HttpRequest(protocol);
-            var promise = request.execute().then(function (data) {
-                return JSON.parse(data);
-            }).then(function (response) {
-                if (response.error) {
-                    return Promise.reject(response);
-                }
-
-                return new Folder({
-                    isScript: false,
-                    path: path,
-                    name: path.split('/').pop(),
-                    scriptId: ''
-                });
-            });
-
-            return _utils.Utils.wrapCallbacks(promise, callbacks);
-        }
-    }, {
         key: 'getScript',
         value: function getScript(id) {
             var callbacks = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
@@ -712,36 +781,9 @@ var App = function () {
                 url: _client.SDKOptions.GET_SCRIPT_URL
             };
 
-            var protocol = _protocol2.Protocol.init(protocolOpts);
+            var protocol = _protocol4.Protocol.init(protocolOpts);
             protocol.setData({
                 script: id
-            });
-
-            console.log(protocol);
-
-            var request = new _httpRequest.HttpRequest(protocol);
-            var promise = request.execute().then(function (data) {
-                return JSON.parse(data);
-            }).then(function (response) {
-                if (response.error) {
-                    return Promise.reject(response);
-                }
-
-                return new Script(response.script);
-            });
-            return _utils.Utils.wrapCallbacks(promise, callbacks);
-        }
-    }, {
-        key: 'createScript',
-        value: function createScript(data) {
-            var callbacks = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-            var protocolOpts = {
-                url: _client.SDKOptions.CREATE_SCRIPT_URL
-            };
-            var protocol = _protocol2.Protocol.init(protocolOpts);
-            protocol.setData({
-                cloudCode: data
             });
 
             var request = new _httpRequest.HttpRequest(protocol);
@@ -764,7 +806,7 @@ var App = function () {
             var protocolOpts = {
                 url: _client.SDKOptions.GET_BOTS_URL
             };
-            var protocol = _protocol2.Protocol.init(protocolOpts);
+            var protocol = _protocol4.Protocol.init(protocolOpts);
             protocol.setData({
                 skip: skip || 0,
                 limit: limit || 50
@@ -781,32 +823,6 @@ var App = function () {
                 return response.items.map(function (it) {
                     return new Bot(it);
                 });
-            });
-            return _utils.Utils.wrapCallbacks(promise, callbacks);
-        }
-    }, {
-        key: 'createBot',
-        value: function createBot(data) {
-            var callbacks = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-            var protocolOpts = {
-                url: _client.SDKOptions.CREATE_BOT_URL
-            };
-
-            var protocol = _protocol2.Protocol.init(protocolOpts);
-            protocol.setData({
-                bot: data
-            });
-
-            var request = new _httpRequest.HttpRequest(protocol);
-            var promise = request.execute().then(function (data) {
-                return JSON.parse(data);
-            }).then(function (response) {
-                if (response.error) {
-                    return Promise.reject(response);
-                }
-
-                return new Bot(response.bot);
             });
             return _utils.Utils.wrapCallbacks(promise, callbacks);
         }
@@ -829,7 +845,7 @@ var SCSystem = exports.SCSystem = function () {
                 url: _client.SDKOptions.DATA_STATS
             };
 
-            var protocol = _protocol2.Protocol.init(protocolOpts);
+            var protocol = _protocol4.Protocol.init(protocolOpts);
             var request = new _httpRequest.HttpRequest(protocol);
             var promise = request.execute().then(function (data) {
                 return JSON.parse(data);
@@ -851,7 +867,7 @@ var SCSystem = exports.SCSystem = function () {
             var protocolOpts = {
                 url: _client.SDKOptions.GET_APP_URL
             };
-            var protocol = _protocol2.Protocol.init(protocolOpts);
+            var protocol = _protocol4.Protocol.init(protocolOpts);
             var request = new _httpRequest.HttpRequest(protocol);
             var promise = request.execute().then(function (data) {
                 return JSON.parse(data);
