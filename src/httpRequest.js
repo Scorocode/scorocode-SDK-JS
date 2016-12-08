@@ -47,6 +47,10 @@ export class HttpRequest {
                 })
             });
 
+            request.on('error', function (err) {
+                return reject(err);
+            });
+
             request.setTimeout(this.timeout, function(){
                 request.abort();
             });

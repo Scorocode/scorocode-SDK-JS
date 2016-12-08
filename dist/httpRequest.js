@@ -62,6 +62,10 @@ var HttpRequest = exports.HttpRequest = function () {
                     });
                 });
 
+                request.on('error', function (err) {
+                    return reject(err);
+                });
+
                 request.setTimeout(_this.timeout, function () {
                     request.abort();
                 });
