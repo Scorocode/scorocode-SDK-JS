@@ -53,7 +53,7 @@ export const SDKOptions = {
     DELETE_BOT_URL: '/api/v1/bots/delete',
 
 
-    TIMEOUT: 5000
+    TIMEOUT: 120000
 
 };
 export class Client {
