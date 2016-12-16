@@ -20,7 +20,7 @@ var _client = require("./client");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var SCObject = exports.SCObject = function () {
-    function SCObject(collName) {
+    function SCObject(collName, model) {
         _classCallCheck(this, SCObject);
 
         if (typeof collName !== 'string') {
@@ -28,7 +28,7 @@ var SCObject = exports.SCObject = function () {
         }
 
         this.collection = collName;
-        this.attrs = {};
+        this.attrs = model ? model : {};
         this.update = {};
 
         for (var prop in _updateOps.operators) {
@@ -37,6 +37,18 @@ var SCObject = exports.SCObject = function () {
     }
 
     _createClass(SCObject, [{
+        key: "setAttrs",
+        value: function setAttrs(obj) {
+            for (var item in obj) {
+                this.set(item, obj[item]);
+            }
+        }
+    }, {
+        key: "getAttrs",
+        value: function getAttrs() {
+            return Object.assign({}, this.attrs);
+        }
+    }, {
         key: "getById",
         value: function getById(id, options) {
             var _this = this;

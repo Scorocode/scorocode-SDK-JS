@@ -26,10 +26,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var SCUser = exports.SCUser = function (_SCObject) {
     _inherits(SCUser, _SCObject);
 
-    function SCUser() {
+    function SCUser(user) {
         _classCallCheck(this, SCUser);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(SCUser).call(this, 'users'));
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(SCUser).call(this, 'users', user));
     }
 
     _createClass(SCUser, [{
