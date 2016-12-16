@@ -5,13 +5,13 @@ import {DataStore} from "./stores/data"
 import {Client} from './client'
 
 export class SCObject {
-    constructor(collName) {
+    constructor(collName, model) {
         if (typeof collName !== 'string') {
             throw new Error('Invalid collection name');
         }
         
         this.collection = collName;
-        this.attrs = {};
+        this.attrs = model ? model : {};
         this.update = {};
 
         for (let prop in operators) {

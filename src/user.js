@@ -5,8 +5,8 @@ import {Client, SDKOptions} from './client'
 import {SCObject} from './object';
 
 export class SCUser extends SCObject{
-    constructor() {
-        super('users');
+    constructor(user) {
+        super('users', user);
     }
     signup(options = {}) {
         let protocolOpts = {
