@@ -8,6 +8,7 @@ export class SCUser extends SCObject{
     constructor(user) {
         super('users', user);
     }
+
     signup(options = {}) {
         let protocolOpts = {
             url: SDKOptions.SIGN_UP_URL
@@ -35,6 +36,7 @@ export class SCUser extends SCObject{
             });
         return Utils.wrapCallbacks(promise, options);
     }
+
     logout(options = {}) {
         let protocolOpts = {
             url: SDKOptions.LOGOUT_URL
@@ -56,6 +58,7 @@ export class SCUser extends SCObject{
             });
         return Utils.wrapCallbacks(promise, options);
     }
+
     login(email, password, options = {}) {
         let protocolOpts = {
             url: SDKOptions.LOGIN_URL
@@ -75,7 +78,7 @@ export class SCUser extends SCObject{
                 const client = Client.getInstance();
                 client.sessionId = response.result.sessionId;
                 
-                Utils.extend(this, response.result.user);
+                Utils.extend(this.attrs, response.result.user);
             
                 return response.result.user;
             });
