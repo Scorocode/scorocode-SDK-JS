@@ -109,7 +109,7 @@ var SCUser = exports.SCUser = function (_SCObject) {
                 var client = _client.Client.getInstance();
                 client.sessionId = response.result.sessionId;
 
-                _utils.Utils.extend(_this3, response.result.user);
+                _utils.Utils.extend(_this3.attrs, response.result.user);
 
                 return response.result.user;
             });
