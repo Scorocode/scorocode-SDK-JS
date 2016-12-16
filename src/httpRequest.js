@@ -31,15 +31,23 @@ export class HttpRequest {
             }, function(res) {
                 let result = "";
                 if (res.statusCode !== 200) {
-                    return reject(new Error('Invalid statusCode: ' + res.statusCode));
+                    return reject({
+                        error       : true,
+                        errCode     : res.statusCode,
+                        errMsg      : res.responseText || 'Invalid statusCode'
+                    });
                 }
 
                 res.on('data', function(data) {
                     result += data.toString();
                 });
 
-                res.on('error', function(data) {
-                    return reject(data);
+                res.on('error', function(err) {
+                    return reject({
+                        error       : true,
+                        errCode     : res.statusCode,
+                        errMsg      : err.message
+                    });
                 });
 
                 res.on('end', function(){
@@ -47,8 +55,28 @@ export class HttpRequest {
                 })
             });
 
+            request.on('aborted', function () {
+                return reject({
+                    error       : true,
+                    errCode     : 504,
+                    errMsg      : 'Request has been aborted by the server'
+                });
+            });
+
+            request.on('abort', function () {
+                return reject({
+                    error       : true,
+                    errCode     : 418,
+                    errMsg      : 'Request has been aborted by the client'
+                });
+            });
+
             request.on('error', function (err) {
-                return reject(err);
+                return reject({
+                    error       : true,
+                    errCode     : 422,
+                    errMsg      : err.message
+                });
             });
 
             request.setTimeout(this.timeout, function(){
