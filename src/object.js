@@ -18,7 +18,17 @@ export class SCObject {
             this[prop] = operators[prop];
         }
     }
-    
+
+    setAttrs (obj) {
+        for (let item in obj) {
+            this.set(item, obj[item]);
+        }
+    }
+
+    getAttrs () {
+        return Object.assign({}, this.attrs);
+    }
+
     getById(id, options) {
         let query = new SCQuery(this.collection);
         
@@ -34,6 +44,7 @@ export class SCObject {
 
         return promise;
     }
+
     get(key) {
         return this.attrs[key];
     }
@@ -120,6 +131,7 @@ export class SCObject {
         };
         return json;
     }
+
     save(options = {}) {
         if (this.attrs['_id']) {
             return DataStore.getInstance().updateById(this.toJson(), options).then(data => {
@@ -138,6 +150,7 @@ export class SCObject {
             return data.result;
         });
     }
+
     remove(options = {}) {
         if (!this.attrs['_id']) {
             throw new Error("Document does't exist");
@@ -147,7 +160,7 @@ export class SCObject {
             return data;
         });
     }
-    
+
     static extend(collName, childObject) {
         const obj = new SCObject(collName);
         for (let prop in childObject) {
@@ -156,6 +169,5 @@ export class SCObject {
 
         return obj;
     }
-    
 
 }
