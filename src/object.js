@@ -11,7 +11,7 @@ export class SCObject {
         }
         
         this.collection = collName;
-        this.attrs = model ? model : {};
+        this.attrs = Object.assign({}, model);
         this.update = {};
 
         for (let prop in operators) {
@@ -20,8 +20,9 @@ export class SCObject {
     }
 
     setAttrs (obj) {
-        for (let item in obj) {
-            this.set(item, obj[item]);
+        const model = Object.assign({}, obj);
+        for (let item in model) {
+            this.set(item, model[item]);
         }
     }
 

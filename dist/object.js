@@ -28,7 +28,7 @@ var SCObject = exports.SCObject = function () {
         }
 
         this.collection = collName;
-        this.attrs = model ? model : {};
+        this.attrs = Object.assign({}, model);
         this.update = {};
 
         for (var prop in _updateOps.operators) {
@@ -39,8 +39,9 @@ var SCObject = exports.SCObject = function () {
     _createClass(SCObject, [{
         key: "setAttrs",
         value: function setAttrs(obj) {
-            for (var item in obj) {
-                this.set(item, obj[item]);
+            var model = Object.assign({}, obj);
+            for (var item in model) {
+                this.set(item, model[item]);
             }
         }
     }, {
