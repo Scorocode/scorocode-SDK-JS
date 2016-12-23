@@ -20,6 +20,8 @@ var _system = require('./system');
 
 var _logger = require('./logger');
 
+var _bot = require('./bot');
+
 var Scorocode = {
     Init: function Init(opt) {
         var client = _client.Client.init(opt);
@@ -36,5 +38,6 @@ Scorocode.CloudCode = _cloudCode.SCCloudCode;
 Scorocode.WebSocket = _websocket.SCWebSocket;
 Scorocode.System = _system.SCSystem;
 Scorocode.Logger = _logger.SCLogger;
+Scorocode.Bot = _bot.SCBot;
 
 module.exports = Scorocode;

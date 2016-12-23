@@ -8,6 +8,7 @@ import {SCCloudCode} from './cloudCode'
 import {SCWebSocket} from './websocket'
 import {SCSystem} from './system'
 import {SCLogger} from './logger'
+import {SCBot} from './bot'
 
 var Scorocode = {
     Init: function (opt) {
@@ -25,5 +26,6 @@ Scorocode.CloudCode = SCCloudCode;
 Scorocode.WebSocket = SCWebSocket;
 Scorocode.System = SCSystem;
 Scorocode.Logger = SCLogger;
+Scorocode.Bot = SCBot;
 
 module.exports = Scorocode;

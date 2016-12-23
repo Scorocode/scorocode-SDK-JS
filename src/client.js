@@ -27,6 +27,9 @@ export const SDKOptions = {
 
     DATA_STATS: '/api/v1/stat',
 
+    BOT_HOST: 'bots.scorocode.ru',
+    BOT_URL: '/bots/',
+
     /* Работа с приложением */
     GET_APP_URL: '/api/v1/app',
     GET_COLLECTIONS_URL: '/api/v1/app/collections',
@@ -51,8 +54,6 @@ export const SDKOptions = {
     CREATE_BOT_URL: '/api/v1/bots/create',
     UPDATE_BOT_URL: '/api/v1/bots/update',
     DELETE_BOT_URL: '/api/v1/bots/delete',
-
-
     TIMEOUT: 120000
 
 };

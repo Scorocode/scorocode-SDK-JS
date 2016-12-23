@@ -151,6 +151,52 @@ export class CloudCodeProtocol extends Protocol {
     }
 }
 
+export class BotProtocol {
+    constructor(botId, client, opts) {
+        this.method = 'POST';
+        this.host = client.get('BOT_HOST');
+        this.port = client.get('PORT');
+        this.path = client.get('BOT_URL') + botId;
+        this.data = {};
+        this.headers = {
+            'Content-Type': 'application/json'
+        };
+        this.timeout = opts.timeout || client.get('TIMEOUT');
+    }
+
+    static init(botId, options = {}) {
+        const client = Client.getInstance();
+        const protocol = new BotProtocol(botId, client, options);
+
+        return protocol;
+    }
+
+    setData(data) {
+        for (var prop in data) {
+            Object.defineProperty(this.data, prop, {
+                value: data[prop],
+                enumerable: true,
+                writable: true,
+                configurable: true
+            })
+        }
+    }
+
+    toJson() {
+        const Json = {};
+
+        for (let prop in this) {
+            if (prop === 'data') {
+                Json[prop] = JSON.stringify(this[prop]);
+                continue;
+            }
+            Json[prop] = this[prop];
+        }
+
+        return Json;
+    }
+}
+
 export class CloudFileProtocol extends Protocol {
     constructor() {
         super();

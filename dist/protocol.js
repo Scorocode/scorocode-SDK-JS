@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.CloudFileProtocol = exports.CloudCodeProtocol = exports.MessengerProtocol = exports.UserProtocol = exports.DataProtocol = exports.Protocol = undefined;
+exports.CloudFileProtocol = exports.BotProtocol = exports.CloudCodeProtocol = exports.MessengerProtocol = exports.UserProtocol = exports.DataProtocol = exports.Protocol = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -223,6 +223,63 @@ var CloudCodeProtocol = exports.CloudCodeProtocol = function (_Protocol4) {
 
     return CloudCodeProtocol;
 }(Protocol);
+
+var BotProtocol = exports.BotProtocol = function () {
+    function BotProtocol(botId, client, opts) {
+        _classCallCheck(this, BotProtocol);
+
+        this.method = 'POST';
+        this.host = client.get('BOT_HOST');
+        this.port = client.get('PORT');
+        this.path = client.get('BOT_URL') + botId;
+        this.data = {};
+        this.headers = {
+            'Content-Type': 'application/json'
+        };
+        this.timeout = opts.timeout || client.get('TIMEOUT');
+    }
+
+    _createClass(BotProtocol, [{
+        key: 'setData',
+        value: function setData(data) {
+            for (var prop in data) {
+                Object.defineProperty(this.data, prop, {
+                    value: data[prop],
+                    enumerable: true,
+                    writable: true,
+                    configurable: true
+                });
+            }
+        }
+    }, {
+        key: 'toJson',
+        value: function toJson() {
+            var Json = {};
+
+            for (var prop in this) {
+                if (prop === 'data') {
+                    Json[prop] = JSON.stringify(this[prop]);
+                    continue;
+                }
+                Json[prop] = this[prop];
+            }
+
+            return Json;
+        }
+    }], [{
+        key: 'init',
+        value: function init(botId) {
+            var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+            var client = _client.Client.getInstance();
+            var protocol = new BotProtocol(botId, client, options);
+
+            return protocol;
+        }
+    }]);
+
+    return BotProtocol;
+}();
 
 var CloudFileProtocol = exports.CloudFileProtocol = function (_Protocol5) {
     _inherits(CloudFileProtocol, _Protocol5);
