@@ -156,7 +156,7 @@ export class BotProtocol {
         this.method = 'POST';
         this.host = client.get('BOT_HOST');
         this.port = client.get('PORT');
-        this.path = client.get('BOT_URL') + botId;
+        this.path = client.get('BOT_URL') + botId + '/response';
         this.data = {};
         this.headers = {
             'Content-Type': 'application/json'
