@@ -84,10 +84,6 @@ export class SCMessenger {
             throw new Error('Invalid data type');
         }
 
-        if (typeof options.data.text !== 'string') {
-            throw new Error('Missing subject or text message');
-        }
-
         if (typeof debug === 'object') {
             callbacks = debug
         }
