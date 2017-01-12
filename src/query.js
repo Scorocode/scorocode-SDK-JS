@@ -95,12 +95,9 @@ export class SCQuery {
     }
 
     contains(field,value) {
-        if (typeof value !== 'string') {
-            throw new Error("Value must be a string");
-        }
-
         return this._addFilter(field, '$regex', value);
     }
+
     startsWith(field, value) {
         if (typeof value !== 'string') {
             throw new Error("Value must be a string");
@@ -108,6 +105,7 @@ export class SCQuery {
 
         return this._addFilter(field, '$regex', '^' + value);
     }
+
     endsWith(field, value) {
         if (typeof value !== 'string') {
             throw new Error("Value must be a string");
