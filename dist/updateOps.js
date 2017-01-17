@@ -14,6 +14,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var operators = {
     set: function set(key, value) {
         if (this instanceof SCUpdateOps || this.attrs['_id']) {
+            if (key === 'createdAt' || key === 'updatedAt' || key === '_id') {
+                return this;
+            }
             if (!this.update['$set']) {
                 this.update['$set'] = {};
             }
