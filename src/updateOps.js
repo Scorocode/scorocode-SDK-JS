@@ -3,6 +3,9 @@ import {Utils} from "./utils"
 var operators = {
     set: function (key, value) {
         if (this instanceof SCUpdateOps || this.attrs['_id']) {
+            if (key === 'createdAt' || key === 'updatedAt' || key === '_id') {
+                return this;
+            }
             if (!this.update['$set']) {
                 this.update['$set'] = {}
             }
