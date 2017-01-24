@@ -21,7 +21,10 @@ var operators = {
                 this.update['$set'] = {};
             }
             this.update['$set'][key] = value;
-            this.attrs[key] = value;
+
+            if (this.attrs) {
+                this.attrs[key] = value;
+            }
         } else {
             this.attrs[key] = value;
         }
