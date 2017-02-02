@@ -25,6 +25,51 @@ export class SCCloudCode {
 
         this.id = id;
     }
+
+    runSync(pool = {}, callbacks) {
+        if (typeof pool !== 'object') {
+            throw new Error('Invalid type of pool');
+        }
+
+        let protocolOpts = {
+            url: SDKOptions.CLOUD_CODE_URL
+        };
+
+        const channelId = parseInt(Math.random() * 10000000);
+
+        const protocol = CloudCodeProtocol.init({
+            script: this.id,
+            pool: Object.assign({channelId: channelId}, pool),
+            debug: false
+        }, protocolOpts);
+
+        const promise = new Promise((resolve, reject) => {
+            const request = new HttpRequest(protocol);
+            var ws = new SCWebSocket(channelId);
+
+            ws.on("open", () => {
+                request.execute()
+                    .then(data => {
+                        return JSON.parse(data);
+                    })
+                    .then(response => {
+                        if (response.error) {
+                            return reject(response);
+                        }
+                    });
+            });
+            ws.on("error", (err) => {
+                return reject(err);
+            });
+            ws.on("message", (msg) => {
+                return resolve(msg);
+            });
+
+        });
+
+        return Utils.wrapCallbacks(promise, callbacks);
+    }
+
     run(pool = {}, debug, callbacks) {
         if (typeof pool !== 'object') {
             throw new Error('Invalid type of pool');
