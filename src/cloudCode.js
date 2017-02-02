@@ -47,6 +47,12 @@ export class SCCloudCode {
             const request = new HttpRequest(protocol);
             var ws = new SCWebSocket(channelId);
 
+            const timeout = setTimeout(() => {
+                ws.wsInstanse.close();
+                clearTimeout(timeout);
+                reject({errMsg: 'Gateway Timeout', errCode: 504, error: true});
+            }, 120000);
+
             ws.on("open", () => {
                 request.execute()
                     .then(data => {
@@ -62,6 +68,8 @@ export class SCCloudCode {
                 return reject(err);
             });
             ws.on("message", (msg) => {
+                ws.wsInstanse.close();
+                clearTimeout(timeout);
                 return resolve(msg);
             });
 
