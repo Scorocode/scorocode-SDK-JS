@@ -27,6 +27,30 @@ export class SCQuery {
         //TODO: Следует возвращать массив SC.Object вместо сырых данных
         return DataStore.getInstance().find(this.toJson(), options);
     }
+
+    // Не следует использовать для больших коллекций
+    findAll(options = {}) {
+        let result = [];
+        return Utils.promiseWhile(
+            (res) => {
+                if (!res) {
+                    return true;
+                }
+
+                if (!res.result.length) {
+                    return false;
+                }
+
+                result = result.concat(res.result);
+                this.skip(this._skip + this._limit);
+
+                return true;
+            },
+            () => {
+                return DataStore.getInstance().find(this.toJson(), options);
+            })
+            .then(res => result)
+    }
     count(options = {}) {
         return DataStore.getInstance().count(this.toJson(), options);
     }

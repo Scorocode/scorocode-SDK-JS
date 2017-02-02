@@ -46,6 +46,36 @@ var SCQuery = function () {
             //TODO: Следует возвращать массив SC.Object вместо сырых данных
             return _data.DataStore.getInstance().find(this.toJson(), options);
         }
+
+        // Не следует использовать для больших коллекций
+
+    }, {
+        key: "findAll",
+        value: function findAll() {
+            var _this = this;
+
+            var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+            var result = [];
+            return _utils.Utils.promiseWhile(function (res) {
+                if (!res) {
+                    return true;
+                }
+
+                if (!res.result.length) {
+                    return false;
+                }
+
+                result = result.concat(res.result);
+                _this.skip(_this._skip + _this._limit);
+
+                return true;
+            }, function () {
+                return _data.DataStore.getInstance().find(_this.toJson(), options);
+            }).then(function (res) {
+                return result;
+            });
+        }
     }, {
         key: "count",
         value: function count() {

@@ -46,5 +46,14 @@ Utils.removeElement = function (array, el) {
 
     return arr;
 };
+Utils.promiseWhile = function (condition, body) {
+    return new Promise(function (resolve, reject) {
+        function loop(res) {
+            if (!condition(res)) return resolve();
+            body(res).then(loop, reject);
+        }
+        loop();
+    });
+};
 
 exports.Utils = Utils;

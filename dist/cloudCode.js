@@ -64,26 +64,33 @@ var SCCloudCode = exports.SCCloudCode = function () {
                 url: _client.SDKOptions.CLOUD_CODE_URL
             };
 
+            var channelId = parseInt(Math.random() * 10000000);
+
             var protocol = _protocol.CloudCodeProtocol.init({
                 script: this.id,
-                pool: {
-                    pool: pool,
-                    channelId: ''
-                },
+                pool: Object.assign({ channelId: channelId }, pool),
                 debug: false
             }, protocolOpts);
 
-            // Открываем сокет соединение
+            var promise = new Promise(function (resolve, reject) {
+                var request = new _httpRequest.HttpRequest(protocol);
+                var ws = new _websocket.SCWebSocket(channelId);
 
-            var request = new _httpRequest.HttpRequest(protocol);
-            var promise = request.execute().then(function (data) {
-                return JSON.parse(data);
-            }).then(function (response) {
-                if (response.error) {
-                    return Promise.reject(response);
-                }
-
-                return response;
+                ws.on("open", function () {
+                    request.execute().then(function (data) {
+                        return JSON.parse(data);
+                    }).then(function (response) {
+                        if (response.error) {
+                            return reject(response);
+                        }
+                    });
+                });
+                ws.on("error", function (err) {
+                    return reject(err);
+                });
+                ws.on("message", function (msg) {
+                    return resolve(msg);
+                });
             });
 
             return _utils.Utils.wrapCallbacks(promise, callbacks);
