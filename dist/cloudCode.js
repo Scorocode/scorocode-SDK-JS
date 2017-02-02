@@ -97,7 +97,6 @@ var SCCloudCode = exports.SCCloudCode = function () {
                 ws.on("message", function (msg) {
                     ws.wsInstanse.close();
                     clearTimeout(timeout);
-                    ws = null;
                     return resolve(msg);
                 });
             });
