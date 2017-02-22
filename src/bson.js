@@ -3,6 +3,12 @@
  * https://github.com/mongodb/js-bson/blob/master/alternate_parsers/faster_bson.js
  * */
 
+const JS_INT_MAX = 0x20000000000000;
+const JS_INT_MIN = -0x20000000000000;
+
+var Long = require('./long');
+var ObjectID = require('./objectid');
+
 function Timestamp(low, high) {
     this._bsontype = 'Timestamp';
     this.low_ = low | 0;    this.high_ = high | 0;          /// force into 32 signed bits.

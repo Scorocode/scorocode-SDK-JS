@@ -6,6 +6,12 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+var JS_INT_MAX = 0x20000000000000;
+var JS_INT_MIN = -0x20000000000000;
+
+var Long = require('./long');
+var ObjectID = require('./objectid');
+
 function Timestamp(low, high) {
     this._bsontype = 'Timestamp';
     this.low_ = low | 0;this.high_ = high | 0; /// force into 32 signed bits.
