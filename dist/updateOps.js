@@ -54,10 +54,6 @@ var operators = {
             if (!this.attrs['_id']) {
                 throw new Error('For a new document use the method Set');
             }
-
-            if (!_utils.Utils.isArray(this.attrs[key])) {
-                throw new Error('Field must by a type of array');
-            }
         }
 
         if (!this.update['$pull']) {
@@ -71,10 +67,6 @@ var operators = {
         if (!(this instanceof SCUpdateOps)) {
             if (!this.attrs['_id']) {
                 throw new Error('For a new document use the method Set');
-            }
-
-            if (!_utils.Utils.isArray(this.attrs[key])) {
-                throw new Error('Field must by a type of array');
             }
         }
 
