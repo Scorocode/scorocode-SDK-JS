@@ -122,10 +122,6 @@ var operators = {
             if (!this.attrs['_id']) {
                 throw new Error('For a new document use the method Set');
             }
-
-            if (!_utils.Utils.isNumber(this.attrs[key])) {
-                throw new Error('Field must by a type of number');
-            }
         }
 
         if (!this.update['$inc']) {
