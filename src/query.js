@@ -19,6 +19,11 @@ export class SCQuery {
             this._filter[field] = {};
         }
 
+        if (typeof condition === 'object') {
+            this._filter[field] = condition;
+            return this;
+        }
+
         this._filter[field][condition] = values;
         return this;
     }
@@ -118,21 +123,33 @@ export class SCQuery {
         return this._addFilter(field, '$exists', false);
     }
 
-    contains(field,value) {
+    contains(field,value, opts) {
+        if (opts) {
+            return this._addFilter(field, {$regex: value, $options: opts});
+        }
+
         return this._addFilter(field, '$regex', value);
     }
 
-    startsWith(field, value) {
+    startsWith(field, value, opts) {
         if (typeof value !== 'string') {
             throw new Error("Value must be a string");
+        }
+
+        if (opts) {
+            return this._addFilter(field, {$regex: '^' + value, $options: opts});
         }
 
         return this._addFilter(field, '$regex', '^' + value);
     }
 
-    endsWith(field, value) {
+    endsWith(field, value, opts) {
         if (typeof value !== 'string') {
             throw new Error("Value must be a string");
+        }
+
+        if (opts) {
+            return this._addFilter(field, {$regex: value + '$', $options: opts});
         }
 
         return this._addFilter(field, '$regex', value + '$');
