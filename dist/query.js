@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.SCQuery = undefined;
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _utils = require("./utils");
@@ -33,6 +35,11 @@ var SCQuery = function () {
         value: function _addFilter(field, condition, values) {
             if (!_utils.Utils.isObject(this._filter[field])) {
                 this._filter[field] = {};
+            }
+
+            if ((typeof condition === "undefined" ? "undefined" : _typeof(condition)) === 'object') {
+                this._filter[field] = condition;
+                return this;
             }
 
             this._filter[field][condition] = values;
@@ -175,23 +182,35 @@ var SCQuery = function () {
         }
     }, {
         key: "contains",
-        value: function contains(field, value) {
+        value: function contains(field, value, opts) {
+            if (opts) {
+                return this._addFilter(field, { $regex: value, $options: opts });
+            }
+
             return this._addFilter(field, '$regex', value);
         }
     }, {
         key: "startsWith",
-        value: function startsWith(field, value) {
+        value: function startsWith(field, value, opts) {
             if (typeof value !== 'string') {
                 throw new Error("Value must be a string");
+            }
+
+            if (opts) {
+                return this._addFilter(field, { $regex: '^' + value, $options: opts });
             }
 
             return this._addFilter(field, '$regex', '^' + value);
         }
     }, {
         key: "endsWith",
-        value: function endsWith(field, value) {
+        value: function endsWith(field, value, opts) {
             if (typeof value !== 'string') {
                 throw new Error("Value must be a string");
+            }
+
+            if (opts) {
+                return this._addFilter(field, { $regex: value + '$', $options: opts });
             }
 
             return this._addFilter(field, '$regex', value + '$');
