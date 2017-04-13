@@ -41,6 +41,7 @@ export class SCCloudCode {
 
         const protocol = CloudCodeProtocol.init({
             script: this.isRunByPath ? "" : this.id,
+            isRunByPath: this.isRunByPath,
             path: this.isRunByPath ? this.id : "",
             pool: Object.assign({channelId: channelId}, pool),
             debug: false
@@ -95,6 +96,7 @@ export class SCCloudCode {
         };
 
         const protocol = CloudCodeProtocol.init({
+            isRunByPath: this.isRunByPath,
             script: this.isRunByPath ? "" : this.id,
             path: this.isRunByPath ? this.id : "",
             pool: pool,
