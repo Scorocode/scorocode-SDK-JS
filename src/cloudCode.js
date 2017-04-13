@@ -23,7 +23,9 @@ export class SCCloudCode {
             });
         }
 
+        this.isRunByPath = !!opt.isRunByPath;
         this.id = id;
+
     }
 
     runSync(pool = {}, callbacks) {
@@ -38,7 +40,8 @@ export class SCCloudCode {
         const channelId = parseInt(Math.random() * 10000000);
 
         const protocol = CloudCodeProtocol.init({
-            script: this.id,
+            script: this.isRunByPath ? "" : this.id,
+            path: this.isRunByPath ? this.id : "",
             pool: Object.assign({channelId: channelId}, pool),
             debug: false
         }, protocolOpts);
@@ -92,7 +95,8 @@ export class SCCloudCode {
         };
 
         const protocol = CloudCodeProtocol.init({
-            script: this.id,
+            script: this.isRunByPath ? "" : this.id,
+            path: this.isRunByPath ? this.id : "",
             pool: pool,
             debug: debug
         }, protocolOpts);

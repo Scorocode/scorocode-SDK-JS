@@ -47,6 +47,7 @@ var SCCloudCode = exports.SCCloudCode = function () {
             });
         }
 
+        this.isRunByPath = !!opt.isRunByPath;
         this.id = id;
     }
 
@@ -67,7 +68,8 @@ var SCCloudCode = exports.SCCloudCode = function () {
             var channelId = parseInt(Math.random() * 10000000);
 
             var protocol = _protocol.CloudCodeProtocol.init({
-                script: this.id,
+                script: this.isRunByPath ? "" : this.id,
+                path: this.isRunByPath ? this.id : "",
                 pool: Object.assign({ channelId: channelId }, pool),
                 debug: false
             }, protocolOpts);
@@ -123,7 +125,8 @@ var SCCloudCode = exports.SCCloudCode = function () {
             };
 
             var protocol = _protocol.CloudCodeProtocol.init({
-                script: this.id,
+                script: this.isRunByPath ? "" : this.id,
+                path: this.isRunByPath ? this.id : "",
                 pool: pool,
                 debug: debug
             }, protocolOpts);
