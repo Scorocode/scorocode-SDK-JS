@@ -93,7 +93,7 @@ var Client = exports.Client = function () {
         this.scriptKey = options.ScriptKey || "";
         this.fileKey = options.FileKey || "";
         this.websocketKey = options.WebSocketKey || "";
-        this.sessionId = "";
+        this.sessionId = options.sessionId || "";
 
         this.host = "https://scorocode.ru";
         this.port = "443";
