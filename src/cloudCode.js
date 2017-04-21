@@ -10,11 +10,11 @@ export class SCCloudCode {
         if (typeof id !== 'string') {
             throw new Error('Invalid script id');
         }
+        this.debugChannel = ('0' + Math.random()*10000000).slice(-7);
 
         if (opt.logger instanceof SCLogger) {
             this.logger = opt.logger;
-            var channel = id.replace(/\//g,"") + "_debug";
-            this._ws = new SCWebSocket(channel);
+            this._ws = new SCWebSocket(this.debugChannel);
             this._ws.on("open", () => {});
             this._ws.on("error", (err) => {
                 this.logger.error(err);
@@ -26,6 +26,7 @@ export class SCCloudCode {
 
         this.isRunByPath = !!opt.isRunByPath;
         this.id = id;
+
 
     }
 
@@ -101,7 +102,8 @@ export class SCCloudCode {
             script: this.isRunByPath ? "" : this.id,
             path: this.isRunByPath ? this.id : "",
             pool: pool,
-            debug: debug
+            debug: debug,
+            debugChannel: this.debugChannel
         }, protocolOpts);
 
 
