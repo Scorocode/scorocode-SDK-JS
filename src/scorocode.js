@@ -14,6 +14,10 @@ var Scorocode = {
     Init: function (opt) {
         const client = Client.init(opt);
         return client;
+    },
+    getSessionId: function() {
+        const client = Client.getInstance();
+        return client.sessionId;
     }
 };
 
