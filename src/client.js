@@ -5,6 +5,8 @@ export const SDKOptions = {
     HOST: 'api.scorocode.ru',
     PORT: '443',
 
+    GET_AUTH_URL: '/api/v1/verifylogin',
+
     FIND_URL: '/api/v1/data/find',
     COUNT_URL: '/api/v1/data/count',
     UPDATE_URL: '/api/v1/data/update',

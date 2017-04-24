@@ -59,6 +59,32 @@ export class SCUser extends SCObject{
         return Utils.wrapCallbacks(promise, options);
     }
 
+    static authorize(options = {}) {
+        let protocolOpts = {
+            url: SDKOptions.GET_AUTH_URL
+        };
+
+        const protocol = UserProtocol.init(null, null, protocolOpts);
+        const request = new HttpRequest(protocol);
+        const promise = request.execute()
+            .then(data => {
+                return JSON.parse(data);
+            })
+            .then(response => {
+                if (response.error) {
+                    return Promise.reject(response);
+                }
+
+                const client = Client.getInstance();
+                client.sessionId = response.result.sessionId;
+
+                Utils.extend(this.attrs, response.result.user);
+
+                return response.result.user;
+            });
+        return Utils.wrapCallbacks(promise, options);
+    }
+
     login(email, password, options = {}) {
         let protocolOpts = {
             url: SDKOptions.LOGIN_URL
