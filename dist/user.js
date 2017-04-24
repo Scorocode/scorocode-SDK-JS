@@ -116,6 +116,35 @@ var SCUser = exports.SCUser = function (_SCObject) {
 
             return _utils.Utils.wrapCallbacks(promise, options);
         }
+    }], [{
+        key: 'authorize',
+        value: function authorize() {
+            var _this4 = this;
+
+            var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+            var protocolOpts = {
+                url: _client.SDKOptions.GET_AUTH_URL
+            };
+
+            var protocol = _protocol.UserProtocol.init(null, null, protocolOpts);
+            var request = new _httpRequest.HttpRequest(protocol);
+            var promise = request.execute().then(function (data) {
+                return JSON.parse(data);
+            }).then(function (response) {
+                if (response.error) {
+                    return Promise.reject(response);
+                }
+
+                var client = _client.Client.getInstance();
+                client.sessionId = response.result.sessionId;
+
+                _utils.Utils.extend(_this4.attrs, response.result.user);
+
+                return response.result.user;
+            });
+            return _utils.Utils.wrapCallbacks(promise, options);
+        }
     }]);
 
     return SCUser;
