@@ -26,6 +26,10 @@ var Scorocode = {
     Init: function Init(opt) {
         var client = _client.Client.init(opt);
         return client;
+    },
+    getSessionId: function getSessionId() {
+        var client = _client.Client.getInstance();
+        return client.sessionId;
     }
 };
 
