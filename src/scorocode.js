@@ -18,6 +18,10 @@ var Scorocode = {
     getSessionId: function() {
         const client = Client.getInstance();
         return client.sessionId;
+    },
+    setSessionId: function(sessionId) {
+        const client = Client.getInstance();
+        client.sessionId = sessionId;
     }
 };
 
