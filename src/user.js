@@ -59,7 +59,7 @@ export class SCUser extends SCObject{
         return Utils.wrapCallbacks(promise, options);
     }
 
-    static authorize(options = {}) {
+    authorize(options = {}) {
         let protocolOpts = {
             url: SDKOptions.GET_AUTH_URL
         };
