@@ -32,7 +32,11 @@ export class SCObject {
 
     getById(id, options) {
         let query = new SCQuery(this.collection);
-        
+
+        if (!id) {
+            throw new Error('Id is empty');
+        }
+
         const promise = query.equalTo('_id',id).find(options).then(data => {
             if (!data.result.length) {
                 throw new Error('Document not found');
