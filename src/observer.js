@@ -1,22 +1,22 @@
 var instance;
 
-function constructObserver () {
+function Observer () {
 
     if (instance) {
         return instance;
     }
 
-    if (this && this.constructor === constructObserver) {
+    if (this && this.constructor === Observer) {
         instance = this;
     } else {
-        return new constructObserver();
+        return new Observer();
     }
 
 }
 
-constructObserver.prototype._listeners = {};
+Observer.prototype._listeners = {};
 
-constructObserver.prototype.emit = function () {
+Observer.prototype.emit = function () {
 
     var args = [];
     for (var i = 0; i < arguments.length; i++) {
@@ -36,7 +36,7 @@ constructObserver.prototype.emit = function () {
 
 };
 
-constructObserver.prototype.on = function (e, cb) {
+Observer.prototype.on = function (e, cb) {
 
     if (!this._listeners[e]) {
         this._listeners[e] = [];
@@ -47,7 +47,7 @@ constructObserver.prototype.on = function (e, cb) {
 
 var SCObserver = (function () {
 
-    return constructObserver;
+    return Observer;
 
 }());
 
