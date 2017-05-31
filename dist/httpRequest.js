@@ -3,8 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.HttpRequest = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _observer = require('./observer');
+
+var _observer2 = _interopRequireDefault(_observer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -139,7 +146,18 @@ var HttpRequest = exports.HttpRequest = function () {
     }, {
         key: 'execute',
         value: function execute() {
-            return this.request();
+            return this.request().then(function (data) {
+                return JSON.parse(data);
+            }).then(function (res) {
+                if (res.error) {
+                    return Promise.reject(res);
+                }
+
+                return Promise.resolve(JSON.stringify(res));
+            }).catch(function (err) {
+                (0, _observer2.default)().emit('error', err);
+                return Promise.reject(err);
+            });
         }
     }]);
 

@@ -9,6 +9,7 @@ import {SCWebSocket} from './websocket'
 import {SCSystem} from './system'
 import {SCLogger} from './logger'
 import {SCBot} from './bot'
+import SCObserver from './observer'
 
 var Scorocode = {
     Init: function (opt) {
@@ -22,6 +23,9 @@ var Scorocode = {
     setSessionId: function(sessionId) {
         const client = Client.getInstance();
         client.sessionId = sessionId;
+    },
+    on: function (e, cb) {
+        SCObserver().on(e, cb);
     }
 };
 
