@@ -3,7 +3,7 @@ import {HttpRequest} from './httpRequest'
 import {Protocol} from './protocol'
 import {SDKOptions} from './client'
 
-class Instance {
+export class SCInstance {
     constructor(data) {
         this._extend(data);
     }

@@ -2,7 +2,7 @@ import {Protocol} from './protocol'
 import {Utils} from './utils'
 import {HttpRequest} from './httpRequest'
 import {SDKOptions} from './client'
-
+import {SCInstance} from './instance'
 class Bot {
     constructor(data) {
         this._extend(data);
@@ -774,7 +774,7 @@ class App {
                 }
 
                 return response.items.map(it => {
-                    return new Instance(it);
+                    return new SCInstance(it);
                 });
             });
         return Utils.wrapCallbacks(promise, callbacks);

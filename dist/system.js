@@ -15,6 +15,8 @@ var _httpRequest = require('./httpRequest');
 
 var _client = require('./client');
 
+var _instance = require('./instance');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Bot = function () {
@@ -845,7 +847,7 @@ var App = function () {
                 }
 
                 return response.items.map(function (it) {
-                    return new Instance(it);
+                    return new _instance.SCInstance(it);
                 });
             });
             return _utils.Utils.wrapCallbacks(promise, callbacks);
