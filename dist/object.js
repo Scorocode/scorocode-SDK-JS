@@ -98,6 +98,8 @@ var SCObject = exports.SCObject = function () {
     }, {
         key: "removeFile",
         value: function removeFile(field) {
+            var _this2 = this;
+
             var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
             if (!this.attrs['_id']) {
@@ -120,13 +122,16 @@ var SCObject = exports.SCObject = function () {
                 file: this.attrs[field]
             };
             return _data.DataStore.getInstance().removeFile(params, options).then(function (data) {
+                if (!data.error) {
+                    _this2.attrs[field] = '';
+                }
                 return data;
             });
         }
     }, {
         key: "uploadFile",
         value: function uploadFile(field, filename, file) {
-            var _this2 = this;
+            var _this3 = this;
 
             var options = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
 
@@ -155,7 +160,7 @@ var SCObject = exports.SCObject = function () {
             return _data.DataStore.getInstance().uploadFile(params, options).then(function (data) {
 
                 if (!data.error) {
-                    _this2.attrs[field] = data.result;
+                    _this3.attrs[field] = data.result;
                 }
                 return data;
             });
@@ -173,14 +178,14 @@ var SCObject = exports.SCObject = function () {
     }, {
         key: "save",
         value: function save() {
-            var _this3 = this;
+            var _this4 = this;
 
             var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
             if (this.attrs['_id']) {
                 return _data.DataStore.getInstance().updateById(this.toJson(), options).then(function (data) {
                     if (!data.error) {
-                        _this3.attrs = data.result;
+                        _this4.attrs = data.result;
                     }
                     data.update = {};
                     return data.result;
@@ -189,7 +194,7 @@ var SCObject = exports.SCObject = function () {
 
             return _data.DataStore.getInstance().insert(this.toJson(), options).then(function (data) {
                 if (!data.error) {
-                    _this3.attrs = data.result;
+                    _this4.attrs = data.result;
                 }
                 return data.result;
             });

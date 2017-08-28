@@ -22,6 +22,8 @@ var _logger = require('./logger');
 
 var _bot = require('./bot');
 
+var _instance = require('./instance');
+
 var _observer = require('./observer');
 
 var _observer2 = _interopRequireDefault(_observer);
@@ -56,5 +58,6 @@ Scorocode.WebSocket = _websocket.SCWebSocket;
 Scorocode.System = _system.SCSystem;
 Scorocode.Logger = _logger.SCLogger;
 Scorocode.Bot = _bot.SCBot;
+Scorocode.Instance = _instance.SCInstance;
 
 module.exports = Scorocode;

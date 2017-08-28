@@ -92,6 +92,9 @@ export class SCObject {
             file: this.attrs[field]
         };
         return DataStore.getInstance().removeFile(params, options).then(data => {
+            if (!data.error) {
+                this.attrs[field] = '';
+            }
             return data;
         });
     }

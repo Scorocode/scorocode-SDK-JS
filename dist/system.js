@@ -826,6 +826,30 @@ var App = function () {
             });
             return _utils.Utils.wrapCallbacks(promise, callbacks);
         }
+    }, {
+        key: 'getInstances',
+        value: function getInstances() {
+            var callbacks = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+            var protocolOpts = {
+                url: _client.SDKOptions.LIST_INSTANCE_URL
+            };
+            var protocol = _protocol4.Protocol.init(protocolOpts);
+
+            var request = new _httpRequest.HttpRequest(protocol);
+            var promise = request.execute().then(function (data) {
+                return JSON.parse(data);
+            }).then(function (response) {
+                if (response.error) {
+                    return Promise.reject(response);
+                }
+
+                return response.items.map(function (it) {
+                    return new Instance(it);
+                });
+            });
+            return _utils.Utils.wrapCallbacks(promise, callbacks);
+        }
     }]);
 
     return App;

@@ -5,6 +5,15 @@ export const SDKOptions = {
     HOST: 'api.scorocode.ru',
     PORT: '443',
 
+    CREATE_INSTANCE_URL: '/api/v1/instance/create',
+    REMOVE_INSTANCE_URL: '/api/v1/instance/delete',
+    RUN_INSTANCE_URL: '/api/v1/instance/run',
+    STOP_INSTANCE_URL: '/api/v1/instance/stop',
+    LIST_INSTANCE_URL: '/api/v1/instance',
+    SCRIPTS_INSTANCE_URL: '/api/v1/instance/scripts',
+    RUN_SCRIPT_INSTANCE_URL: '/api/v1/instance/scripts/run',
+    KILL_SCRIPT_INSTANCE_URL: '/api/v1/instance/scripts/delete',
+
     GET_AUTH_URL: '/api/v1/verifylogin',
 
     FIND_URL: '/api/v1/data/find',

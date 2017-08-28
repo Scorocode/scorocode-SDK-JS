@@ -5,20 +5,22 @@ Object.defineProperty(exports, "__esModule", {
 });
 var instance;
 
-function constructObserver() {
+function Observer() {
+
     if (instance) {
         return instance;
     }
 
-    if (this && this.constructor === constructObserver) {
+    if (this && this.constructor === Observer) {
         instance = this;
     } else {
-        return new constructObserver();
+        return new Observer();
     }
 }
 
-constructObserver.prototype._listeners = {};
-constructObserver.prototype.emit = function () {
+Observer.prototype._listeners = {};
+
+Observer.prototype.emit = function () {
 
     var args = [];
     for (var i = 0; i < arguments.length; i++) {
@@ -33,11 +35,12 @@ constructObserver.prototype.emit = function () {
 
     var ln = this._listeners[e].length;
     for (var _i = 0; _i < ln; _i++) {
-        var _ln = this._listeners[e][_i].apply(null, args);
+        this._listeners[e][_i].apply(null, args);
     }
 };
 
-constructObserver.prototype.on = function (e, cb) {
+Observer.prototype.on = function (e, cb) {
+
     if (!this._listeners[e]) {
         this._listeners[e] = [];
     }
@@ -45,7 +48,8 @@ constructObserver.prototype.on = function (e, cb) {
 };
 
 var SCObserver = function () {
-    return constructObserver;
+
+    return Observer;
 }();
 
 exports.default = SCObserver;

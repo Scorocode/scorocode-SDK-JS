@@ -9,6 +9,7 @@ import {SCWebSocket} from './websocket'
 import {SCSystem} from './system'
 import {SCLogger} from './logger'
 import {SCBot} from './bot'
+import {SCInstance} from './instance'
 import SCObserver from './observer'
 
 var Scorocode = {
@@ -39,5 +40,6 @@ Scorocode.WebSocket = SCWebSocket;
 Scorocode.System = SCSystem;
 Scorocode.Logger = SCLogger;
 Scorocode.Bot = SCBot;
+Scorocode.Instance = SCInstance;
 
 module.exports = Scorocode;

@@ -757,6 +757,29 @@ class App {
 
     }
 
+    getInstances(callbacks = {}) {
+        let protocolOpts = {
+            url: SDKOptions.LIST_INSTANCE_URL
+        };
+        const protocol = Protocol.init(protocolOpts);
+
+        const request = new HttpRequest(protocol);
+        const promise = request.execute()
+            .then(data => {
+                return JSON.parse(data);
+            })
+            .then(response => {
+                if (response.error) {
+                    return Promise.reject(response);
+                }
+
+                return response.items.map(it => {
+                    return new Instance(it);
+                });
+            });
+        return Utils.wrapCallbacks(promise, callbacks);
+    }
+
 }
 
 export class SCSystem {
