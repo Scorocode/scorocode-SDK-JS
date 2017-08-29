@@ -6,7 +6,7 @@ import {SCUpdateOps} from './updateOps'
 import {SCMessenger} from './messenger'
 import {SCCloudCode} from './cloudCode'
 import {SCWebSocket} from './websocket'
-import {SCSystem} from './system'
+import {SCSystem, SCField} from './system'
 import {SCLogger} from './logger'
 import {SCBot} from './bot'
 import {SCInstance} from './instance'
@@ -41,5 +41,6 @@ Scorocode.System = SCSystem;
 Scorocode.Logger = SCLogger;
 Scorocode.Bot = SCBot;
 Scorocode.Instance = SCInstance;
+Scorocode.Field = SCField;
 
 module.exports = Scorocode;

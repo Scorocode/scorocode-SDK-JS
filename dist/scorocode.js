@@ -59,5 +59,6 @@ Scorocode.System = _system.SCSystem;
 Scorocode.Logger = _logger.SCLogger;
 Scorocode.Bot = _bot.SCBot;
 Scorocode.Instance = _instance.SCInstance;
+Scorocode.Field = _system.SCField;
 
 module.exports = Scorocode;

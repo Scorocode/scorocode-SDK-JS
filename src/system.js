@@ -142,7 +142,7 @@ class Triggers {
     }
 }
 
-class Field{
+export class SCField {
     constructor(collName, data = {}){
 
         Object.defineProperty(this, 'collName', {
@@ -338,7 +338,7 @@ class Collection {
         for (let it in collection) {
             if (it === 'fields') {
                 this.fields = collection[it].map((field) => {
-                    return new Field(this.name, field);
+                    return new SCField(this.name, field);
                 });
                 continue
             }

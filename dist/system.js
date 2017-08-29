@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.SCSystem = undefined;
+exports.SCSystem = exports.SCField = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -170,11 +170,11 @@ var Triggers = function () {
     return Triggers;
 }();
 
-var Field = function () {
-    function Field(collName) {
+var SCField = exports.SCField = function () {
+    function SCField(collName) {
         var data = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-        _classCallCheck(this, Field);
+        _classCallCheck(this, SCField);
 
         Object.defineProperty(this, 'collName', {
             value: collName,
@@ -186,7 +186,7 @@ var Field = function () {
         this._extend(data);
     }
 
-    _createClass(Field, [{
+    _createClass(SCField, [{
         key: '_extend',
         value: function _extend(data) {
             for (var prop in data) {
@@ -255,7 +255,7 @@ var Field = function () {
         }
     }]);
 
-    return Field;
+    return SCField;
 }();
 
 var Index = function () {
@@ -384,7 +384,7 @@ var Collection = function () {
             for (var it in collection) {
                 if (it === 'fields') {
                     this.fields = collection[it].map(function (field) {
-                        return new Field(_this5.name, field);
+                        return new SCField(_this5.name, field);
                     });
                     continue;
                 }
