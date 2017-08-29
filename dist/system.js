@@ -176,26 +176,41 @@ var Field = function () {
 
         _classCallCheck(this, Field);
 
-        for (var it in data) {
-            this[it] = data[it];
-        }
-
         Object.defineProperty(this, 'collName', {
             value: collName,
             enumerable: false,
             writable: false,
             configurable: false
         });
+
+        this._extend(data);
     }
 
     _createClass(Field, [{
-        key: 'create',
-        value: function create() {
+        key: '_extend',
+        value: function _extend(data) {
+            for (var prop in data) {
+                this[prop] = data[prop];
+            }
+            return this;
+        }
+    }, {
+        key: 'save',
+        value: function save() {
             var _this3 = this;
 
-            var protocolOpts = {
-                url: _client.SDKOptions.CREATE_FIELD_URL
-            };
+            var protocolOpts = void 0;
+
+            if (!this.id) {
+                protocolOpts = {
+                    url: _client.SDKOptions.CREATE_FIELD_URL
+                };
+            } else {
+                protocolOpts = {
+                    url: _client.SDKOptions.UPDATE_FIELD_URL
+                };
+            }
+
             var protocol = _protocol4.Protocol.init(protocolOpts);
             protocol.setColl(this.collName);
             protocol.setField(this);
@@ -208,9 +223,7 @@ var Field = function () {
                     return Promise.reject(response);
                 }
 
-                for (var it in response.field) {
-                    _this3[it] = response.field[it];
-                }
+                _this3._extend(response.field);
 
                 return _this3;
             });
@@ -396,18 +409,6 @@ var Collection = function () {
         value: function createIndex(name, fields) {
             var index = new Index(this.name, name, fields);
             return index.save();
-        }
-    }, {
-        key: 'createField',
-        value: function createField(name, type) {
-            var target = arguments.length <= 2 || arguments[2] === undefined ? '' : arguments[2];
-
-            var field = new Field(this.name, {
-                name: name,
-                type: type,
-                target: target
-            });
-            return field.create();
         }
     }, {
         key: 'get',

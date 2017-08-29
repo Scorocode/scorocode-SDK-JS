@@ -52,6 +52,7 @@ export const SDKOptions = {
     CREATE_INDEX_URL: '/api/v1/app/collections/index/create',
     DELETE_INDEX_URL: '/api/v1/app/collections/index/delete',
     CREATE_FIELD_URL: '/api/v1/app/collections/fields/create',
+    UPDATE_FIELD_URL: '/api/v1/app/collections/fields/update',
     DELETE_FIELD_URL: '/api/v1/app/collections/fields/delete',
     UPDATE_TRIGGERS_URL: '/api/v1/app/collections/triggers',
     GET_FOLDERS_URL: '/api/v1/app/scripts/folders',

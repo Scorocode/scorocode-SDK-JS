@@ -144,9 +144,6 @@ class Triggers {
 
 class Field{
     constructor(collName, data = {}){
-        for (let it in data) {
-            this[it] = data[it];
-        }
 
         Object.defineProperty(this, 'collName', {
             value: collName,
@@ -154,12 +151,31 @@ class Field{
             writable: false,
             configurable: false
         });
+
+        this._extend(data);
+
     }
 
-    create() {
-        let protocolOpts = {
-            url: SDKOptions.CREATE_FIELD_URL
-        };
+    _extend(data) {
+        for (let prop in data) {
+            this[prop] = data[prop];
+        }
+        return this;
+    }
+
+    save() {
+        let protocolOpts;
+
+        if (!this.id) {
+            protocolOpts = {
+                url: SDKOptions.CREATE_FIELD_URL
+            };
+        } else {
+            protocolOpts = {
+                url: SDKOptions.UPDATE_FIELD_URL
+            };
+        }
+
         const protocol = Protocol.init(protocolOpts);
         protocol.setColl(this.collName);
         protocol.setField(this);
@@ -174,14 +190,13 @@ class Field{
                     return Promise.reject(response);
                 }
 
-                for (let it in response.field) {
-                    this[it] = response.field[it];
-                }
+                this._extend(response.field);
 
                 return this;
             });
 
         return promise;
+
 
     }
 
@@ -347,15 +362,6 @@ class Collection {
     createIndex(name, fields) {
         const index = new Index(this.name, name, fields);
         return index.save()
-    }
-
-    createField(name, type, target = '') {
-        const field = new Field(this.name, {
-            name: name,
-            type: type,
-            target: target
-        });
-        return field.create()
     }
 
     get() {
