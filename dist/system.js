@@ -843,7 +843,7 @@ var App = function () {
             var protocol = _protocol4.Protocol.init(protocolOpts);
             protocol.setData({
                 type: type,
-                name: key
+                key: key
             });
 
             var request = new _httpRequest.HttpRequest(protocol);

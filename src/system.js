@@ -771,7 +771,7 @@ class App {
         const protocol = Protocol.init(protocolOpts);
         protocol.setData({
             type: type,
-            name: key
+            key: key
         });
 
         const request = new HttpRequest(protocol);
