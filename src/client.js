@@ -43,6 +43,7 @@ export const SDKOptions = {
 
     /* Работа с приложением */
     GET_APP_URL: '/api/v1/app',
+    UPDATE_APP_KEY: '/api/v1/app/keys/update',
     GET_COLLECTIONS_URL: '/api/v1/app/collections',
     GET_COLLECTION_URL: '/api/v1/app/collections/get',
     CREATE_COLLECTION_URL: '/api/v1/app/collections/create',

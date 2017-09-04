@@ -763,6 +763,40 @@ class App {
 
     }
 
+    updateKey(type, key, callbacks = {}) {
+
+        let protocolOpts = {
+            url: SDKOptions.UPDATE_APP_KEY
+        };
+        const protocol = Protocol.init(protocolOpts);
+        protocol.setData({
+            type: type,
+            name: key
+        });
+
+        const request = new HttpRequest(protocol);
+        const promise = request.execute()
+            .then(data => {
+                return JSON.parse(data);
+            })
+            .then(response => {
+                if (response.error) {
+                    return Promise.reject(response);
+                }
+
+
+                if (type === 'appId') {
+                    this[type] = response.result;
+                } else {
+                    this[type][key] = response.result;
+                }
+
+                return response;
+
+            });
+        return Utils.wrapCallbacks(promise, callbacks);
+    }
+
     getInstances(callbacks = {}) {
         let protocolOpts = {
             url: SDKOptions.LIST_INSTANCE_URL

@@ -830,6 +830,41 @@ var App = function () {
             return _utils.Utils.wrapCallbacks(promise, callbacks);
         }
     }, {
+        key: 'updateKey',
+        value: function updateKey(type, key) {
+            var _this10 = this;
+
+            var callbacks = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+
+            var protocolOpts = {
+                url: _client.SDKOptions.UPDATE_APP_KEY
+            };
+            var protocol = _protocol4.Protocol.init(protocolOpts);
+            protocol.setData({
+                type: type,
+                name: key
+            });
+
+            var request = new _httpRequest.HttpRequest(protocol);
+            var promise = request.execute().then(function (data) {
+                return JSON.parse(data);
+            }).then(function (response) {
+                if (response.error) {
+                    return Promise.reject(response);
+                }
+
+                if (type === 'appId') {
+                    _this10[type] = response.result;
+                } else {
+                    _this10[type][key] = response.result;
+                }
+
+                return response;
+            });
+            return _utils.Utils.wrapCallbacks(promise, callbacks);
+        }
+    }, {
         key: 'getInstances',
         value: function getInstances() {
             var callbacks = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
