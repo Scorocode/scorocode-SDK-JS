@@ -447,7 +447,12 @@ var Collection = function () {
                 };
                 var protocol = _protocol4.Protocol.init(protocolOpts);
                 protocol.setData({
-                    name: this.name
+                    collection: {
+                        name: this.name,
+                        ACL: this.ACL,
+                        useDocsACL: this.useDocsACL,
+                        notify: this.notify
+                    }
                 });
                 var request = new _httpRequest.HttpRequest(protocol);
                 var promise = request.execute().then(function (data) {

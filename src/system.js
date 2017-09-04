@@ -396,7 +396,12 @@ class Collection {
             };
             const protocol = Protocol.init(protocolOpts);
             protocol.setData({
-                name: this.name
+                collection: {
+                    name: this.name,
+                    ACL: this.ACL,
+                    useDocsACL: this.useDocsACL,
+                    notify: this.notify
+                }
             });
             const request = new HttpRequest(protocol);
             const promise = request.execute()
