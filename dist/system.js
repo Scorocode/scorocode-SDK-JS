@@ -446,7 +446,9 @@ var Collection = function () {
                     url: _client.SDKOptions.CREATE_COLLECTION_URL
                 };
                 var protocol = _protocol4.Protocol.init(protocolOpts);
-                protocol.setCollection(this);
+                protocol.setData({
+                    name: this.name
+                });
                 var request = new _httpRequest.HttpRequest(protocol);
                 var promise = request.execute().then(function (data) {
                     return JSON.parse(data);

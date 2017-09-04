@@ -395,7 +395,9 @@ class Collection {
                 url: SDKOptions.CREATE_COLLECTION_URL
             };
             const protocol = Protocol.init(protocolOpts);
-            protocol.setCollection(this);
+            protocol.setData({
+                name: this.name
+            });
             const request = new HttpRequest(protocol);
             const promise = request.execute()
                 .then(data => {
