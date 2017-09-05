@@ -146,7 +146,7 @@ export class SCObject {
                 if (!data.error) {
                     this.attrs = data.result;
                 }
-                data.update = {};
+                this.update = {};
                 return data.result;
             });
         }
