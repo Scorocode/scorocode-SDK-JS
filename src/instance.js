@@ -15,15 +15,18 @@ export class SCInstance {
     }
 
     save(callbacks = {}) {
-        let protocolOpts = {};
+        let protocolOpts = !this.id ? {
+            url: SDKOptions.CREATE_INSTANCE_URL
+        } : {
+            url: SDKOptions.UPDATE_INSTANCE_URL
+        };
 
-        if (this.id) {
-            protocolOpts.url = SDKOptions.CREATE_INSTANCE_URL;
-        } else {
-            protocolOpts.url = SDKOptions.UPDATE_INSTANCE_URL;
-        }
 
         const protocol = Protocol.init(protocolOpts);
+        protocol.setData({
+            name: this.name,
+            autorun: this.autorun || []
+        });
 
         const request = new HttpRequest(protocol);
         const promise = request.execute()
