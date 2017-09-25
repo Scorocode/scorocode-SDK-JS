@@ -18,6 +18,7 @@ var SDKOptions = exports.SDKOptions = {
     PORT: '443',
 
     CREATE_INSTANCE_URL: '/api/v1/instance/create',
+    UPDATE_INSTANCE_URL: '/api/v1/instance/update',
     REMOVE_INSTANCE_URL: '/api/v1/instance/delete',
     RUN_INSTANCE_URL: '/api/v1/instance/run',
     STOP_INSTANCE_URL: '/api/v1/instance/stop',

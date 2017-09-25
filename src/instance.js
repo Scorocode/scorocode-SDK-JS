@@ -14,10 +14,15 @@ export class SCInstance {
         }
     }
 
-    create(callbacks = {}) {
-        let protocolOpts = {
-            url: SDKOptions.CREATE_INSTANCE_URL
-        };
+    save(callbacks = {}) {
+        let protocolOpts = {};
+
+        if (this.id) {
+            protocolOpts.url = SDKOptions.CREATE_INSTANCE_URL;
+        } else {
+            protocolOpts.url = SDKOptions.UPDATE_INSTANCE_URL;
+        }
+
         const protocol = Protocol.init(protocolOpts);
 
         const request = new HttpRequest(protocol);

@@ -42,6 +42,7 @@ export class SCObject {
                 throw new Error('Document not found');
             }
 
+            this.attrs = {};
             Utils.extend(this.attrs, data.result[0]);
             
             return data.result[0];

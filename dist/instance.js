@@ -32,15 +32,20 @@ var SCInstance = exports.SCInstance = function () {
             }
         }
     }, {
-        key: 'create',
-        value: function create() {
+        key: 'save',
+        value: function save() {
             var _this = this;
 
             var callbacks = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-            var protocolOpts = {
-                url: _client.SDKOptions.CREATE_INSTANCE_URL
-            };
+            var protocolOpts = {};
+
+            if (this.id) {
+                protocolOpts.url = _client.SDKOptions.CREATE_INSTANCE_URL;
+            } else {
+                protocolOpts.url = _client.SDKOptions.UPDATE_INSTANCE_URL;
+            }
+
             var protocol = _protocol.Protocol.init(protocolOpts);
 
             var request = new _httpRequest.HttpRequest(protocol);
