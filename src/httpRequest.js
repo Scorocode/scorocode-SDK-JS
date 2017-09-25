@@ -90,7 +90,7 @@ export class HttpRequest {
         return promise;
 
     }
-    ajax() {
+    ajax(options = {}) {
         const promise = new Promise((resolve, reject) => {
             let url = 'https://' + this.host + this.path;
             var xhr = new XMLHttpRequest();
@@ -106,20 +106,21 @@ export class HttpRequest {
                     resolve(xhr.responseText)
                 }
             };
+            options.refXHR && options.onXHRPrepare(xhr);
             xhr.send(this.data)
         });
 
         return promise;
     }
-    request() {
+    request(options = {}) {
         if (typeof XMLHttpRequest !== 'undefined') {
-            return this.ajax();
+            return this.ajax(options);
         }
         return this.node_request();
     }
 
-    execute() {
-        return this.request()
+    execute(options = {}) {
+        return this.request(options)
             .then(data => {
                 return JSON.parse(data);
             })

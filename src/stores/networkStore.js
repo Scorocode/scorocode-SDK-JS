@@ -152,7 +152,7 @@ export class Network {
         protocol.setAccessKey('acc', client.masterKey || client.fileKey);
 
         const request = new HttpRequest(protocol);
-        const promise = request.execute()
+        const promise = request.execute(options)
             .then(data => {
                 return JSON.parse(data);
             })

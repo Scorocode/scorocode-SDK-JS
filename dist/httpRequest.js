@@ -115,6 +115,8 @@ var HttpRequest = exports.HttpRequest = function () {
         value: function ajax() {
             var _this2 = this;
 
+            var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
             var promise = new Promise(function (resolve, reject) {
                 var url = 'https://' + _this2.host + _this2.path;
                 var xhr = new XMLHttpRequest();
@@ -130,6 +132,7 @@ var HttpRequest = exports.HttpRequest = function () {
                         resolve(xhr.responseText);
                     }
                 };
+                options.refXHR && options.onXHRPrepare(xhr);
                 xhr.send(_this2.data);
             });
 
@@ -138,15 +141,19 @@ var HttpRequest = exports.HttpRequest = function () {
     }, {
         key: 'request',
         value: function request() {
+            var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
             if (typeof XMLHttpRequest !== 'undefined') {
-                return this.ajax();
+                return this.ajax(options);
             }
             return this.node_request();
         }
     }, {
         key: 'execute',
         value: function execute() {
-            return this.request().then(function (data) {
+            var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+            return this.request(options).then(function (data) {
                 return JSON.parse(data);
             }).then(function (res) {
                 if (res.error) {

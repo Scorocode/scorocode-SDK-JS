@@ -170,7 +170,7 @@ var Network = exports.Network = function () {
             protocol.setAccessKey('acc', client.masterKey || client.fileKey);
 
             var request = new _httpRequest.HttpRequest(protocol);
-            var promise = request.execute().then(function (data) {
+            var promise = request.execute(options).then(function (data) {
                 return JSON.parse(data);
             }).then(function (response) {
                 if (response.error) {
