@@ -106,7 +106,7 @@ export class HttpRequest {
                     resolve(xhr.responseText)
                 }
             };
-            options.refXHR && options.onXHRPrepare(xhr);
+            options.onXHRPrepare && options.onXHRPrepare(xhr);
             xhr.send(this.data)
         });
 

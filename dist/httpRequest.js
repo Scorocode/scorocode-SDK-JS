@@ -132,7 +132,7 @@ var HttpRequest = exports.HttpRequest = function () {
                         resolve(xhr.responseText);
                     }
                 };
-                options.refXHR && options.onXHRPrepare(xhr);
+                options.onXHRPrepare && options.onXHRPrepare(xhr);
                 xhr.send(_this2.data);
             });
 
