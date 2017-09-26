@@ -45,7 +45,9 @@ var SCInstance = exports.SCInstance = function () {
             };
 
             var protocol = _protocol.Protocol.init(protocolOpts);
+
             protocol.setData({
+                id: this.id || null,
                 name: this.name,
                 autorun: this.autorun || []
             });

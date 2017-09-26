@@ -23,7 +23,10 @@ export class SCInstance {
 
 
         const protocol = Protocol.init(protocolOpts);
+
+
         protocol.setData({
+            id: this.id || null,
             name: this.name,
             autorun: this.autorun || []
         });
