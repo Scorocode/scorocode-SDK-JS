@@ -820,7 +820,7 @@ class App {
                     return Promise.reject(response);
                 }
 
-                return response.items.map(it => {
+                return response.result.map(it => {
                     return new SCInstance(it);
                 });
             });
