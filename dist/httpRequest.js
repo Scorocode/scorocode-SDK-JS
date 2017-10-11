@@ -161,23 +161,30 @@ var HttpRequest = exports.HttpRequest = function () {
 
             var client = _client.Client.getInstance();
 
-            var fn = this.request;
+            var wrap = function wrap(fn) {
+                return function () {
+                    return fn().then(function (data) {
+                        return JSON.parse(data);
+                    }).then(function (res) {
+                        if (res.error) {
+                            return Promise.reject(res);
+                        }
+
+                        return Promise.resolve(JSON.stringify(res));
+                    }).catch(function (err) {
+                        (0, _observer2.default)().emit('error', err);
+                        return Promise.reject(err);
+                    });
+                };
+            };
+
+            var fn = wrap(this.request.bind(this));
+
             for (var i = 0; i < client.middleware.length; i++) {
                 fn = client.middleware[i](fn);
             }
 
-            return fn(options).then(function (data) {
-                return JSON.parse(data);
-            }).then(function (res) {
-                if (res.error) {
-                    return Promise.reject(res);
-                }
-
-                return Promise.resolve(JSON.stringify(res));
-            }).catch(function (err) {
-                (0, _observer2.default)().emit('error', err);
-                return Promise.reject(err);
-            });
+            return fn(options);
         }
     }]);
 

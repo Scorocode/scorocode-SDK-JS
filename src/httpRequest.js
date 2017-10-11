@@ -128,15 +128,10 @@ export class HttpRequest {
     execute(options = {}) {
         const client = Client.getInstance();
 
-        var fn = this.request;
-        for (var i = 0; i < client.middleware.length; i++) {
-            fn = client.middleware[i](fn)
-        }
-
-        return fn(options)
+        var wrap = (fn) => () => fn()
             .then(data => {
-            return JSON.parse(data);
-        })
+                return JSON.parse(data);
+            })
             .then(res => {
                 if (res.error) {
                     return Promise.reject(res);
@@ -148,5 +143,14 @@ export class HttpRequest {
                 SCObserver().emit('error', err);
                 return Promise.reject(err);
             });
+
+        var fn = wrap(this.request.bind(this));
+
+        for (var i = 0; i < client.middleware.length; i++) {
+            fn = client.middleware[i](fn)
+        }
+
+        return fn(options);
+
     }
 }
