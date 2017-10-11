@@ -27,6 +27,9 @@ var Scorocode = {
     },
     on: function (e, cb) {
         SCObserver().on(e, cb);
+    },
+    use: function (cb) {
+
     }
 };
 

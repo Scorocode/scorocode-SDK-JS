@@ -97,7 +97,11 @@ export class HttpRequest {
 
             xhr.timeout = this.timeout;
             xhr.open(this.method, url, true);
-            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            for (var prop in this.headers) {
+                xhr.setRequestHeader(prop, this.headers[prop]);
+            }
+
             xhr.onreadystatechange = () => {
                 if (xhr.readyState != 4) return;
                 if (xhr.status != 200) {

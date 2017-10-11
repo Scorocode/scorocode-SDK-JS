@@ -45,7 +45,8 @@ var Scorocode = {
     },
     on: function on(e, cb) {
         (0, _observer2.default)().on(e, cb);
-    }
+    },
+    use: function use(cb) {}
 };
 
 Scorocode.Query = _query.SCQuery;

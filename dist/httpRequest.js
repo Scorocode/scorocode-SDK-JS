@@ -123,7 +123,11 @@ var HttpRequest = exports.HttpRequest = function () {
 
                 xhr.timeout = _this2.timeout;
                 xhr.open(_this2.method, url, true);
-                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                for (var prop in _this2.headers) {
+                    xhr.setRequestHeader(prop, _this2.headers[prop]);
+                }
+
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState != 4) return;
                     if (xhr.status != 200) {
