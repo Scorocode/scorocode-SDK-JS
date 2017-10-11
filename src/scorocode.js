@@ -29,7 +29,8 @@ var Scorocode = {
         SCObserver().on(e, cb);
     },
     use: function (cb) {
-
+        const client = Client.getInstance();
+        client.middleware.push(cb);
     }
 };
 

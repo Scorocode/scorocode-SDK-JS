@@ -1,5 +1,7 @@
 'use strict';
 import SCObserver from './observer'
+import {Client} from './client'
+
 var https = null;
 if (typeof XMLHttpRequest === 'undefined') {
     https = require('https');
@@ -124,10 +126,17 @@ export class HttpRequest {
     }
 
     execute(options = {}) {
-        return this.request(options)
+        const client = Client.getInstance();
+
+        var fn = this.request;
+        for (var i = 0; i < client.middleware.length; i++) {
+            fn = client.middleware[i](fn)
+        }
+
+        return fn(options)
             .then(data => {
-                return JSON.parse(data);
-            })
+            return JSON.parse(data);
+        })
             .then(res => {
                 if (res.error) {
                     return Promise.reject(res);

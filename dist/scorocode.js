@@ -46,7 +46,10 @@ var Scorocode = {
     on: function on(e, cb) {
         (0, _observer2.default)().on(e, cb);
     },
-    use: function use(cb) {}
+    use: function use(cb) {
+        var client = _client.Client.getInstance();
+        client.middleware.push(cb);
+    }
 };
 
 Scorocode.Query = _query.SCQuery;

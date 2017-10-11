@@ -85,6 +85,8 @@ export class Client {
             throw new Error('Invalid MasterKey');
         }
 
+        this.middleware = [];
+
         this.applicationID = options.ApplicationID;
         this.clientKey = options.JavaScriptKey;
         this.masterKey = options.MasterKey || "";

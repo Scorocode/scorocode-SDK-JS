@@ -11,6 +11,8 @@ var _observer = require('./observer');
 
 var _observer2 = _interopRequireDefault(_observer);
 
+var _client = require('./client');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -157,7 +159,14 @@ var HttpRequest = exports.HttpRequest = function () {
         value: function execute() {
             var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-            return this.request(options).then(function (data) {
+            var client = _client.Client.getInstance();
+
+            var fn = this.request;
+            for (var i = 0; i < client.middleware.length; i++) {
+                fn = client.middleware[i](fn);
+            }
+
+            return fn(options).then(function (data) {
                 return JSON.parse(data);
             }).then(function (res) {
                 if (res.error) {
