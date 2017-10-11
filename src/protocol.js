@@ -10,11 +10,16 @@ export class Protocol {
             app: client.applicationID,
             cli: client.clientKey,
             acc: client.masterKey,
-            sess: client.sessionId
+            //sess: client.sessionId
         };
         this.headers = {
             'Content-Type': 'application/json'
         };
+
+        if (client.sessionId) {
+            this.headers['Authorization'] = 'Bearer ' + client.sessionId;
+        }
+
         this.timeout = opts.timeout || client.get('TIMEOUT');
     }
 
